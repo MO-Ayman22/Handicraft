@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/splashFragment">
+
+        <fragment
+            android:id="@+id/splashFragment"
+            android:name="com.example.handicraft_graduation_project_2025.ui.fragments.SplashFragment"
+            android:label="SplashFragment">
+
+            <action
+                android:id="@+id/action_splashFragment_to_onboardingFragment"
+                app:destination="@id/onboardingFragment" />
+            <action
+                android:id="@+id/action_splashFragment_to_mainFragment"
+                app:destination="@id/mainFragment" />
+
+        </fragment>
+
+        <fragment
+            android:id="@+id/onboardingFragment"
+            android:name="com.example.handicraft.fragments.OnboardingFragment"
+            android:label="OnboardingFragment">
+            <action
+                android:id="@+id/action_onboardingFragment_to_signInFragment"
+                app:destination="@id/signInFragment" />
+            <action
+                android:id="@+id/action_onboardingFragment_to_signUpFragment"
+                app:destination="@id/signUpFragment" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/signUpFragment"
+            android:name="com.example.handicraft.fragments.SignUpFragment"
+            android:label="SignUpFragment">
+            <action
+                android:id="@+id/action_signUpFragment_to_signInFragment"
+                app:destination="@id/signInFragment" />
+            <action
+                android:id="@+id/action_signUpFragment_to_setYourProfileFragment"
+                app:destination="@id/setYourProfileFragment" />
+
+            <action
+                android:id="@+id/action_signUpFragment_to_craftTypeFragment"
+                app:destination="@id/craftTypeFragment" />
+        </fragment>
+    <fragment
+        android:id="@+id/craftTypeFragment"
+        android:name="com.example.handicraft.fragments.CraftTypeFragment">
+        <action
+            android:id="@+id/action_craftTypeFragment_to_craftSkillFragment"
+            app:destination="@id/craftSkillFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/craftSkillFragment"
+        android:name="com.example.handicraft.fragments.CraftSkillFragment">
+        <action
+            android:id="@+id/action_craftSkillFragment_to_userIdFragment"
+            app:destination="@id/userIdFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/userIdFragment"
+        android:name="com.example.handicraft.fragments.UserIdFragment">
+        <action
+            android:id="@+id/action_userIdFragment_to_setYourProfileFragment"
+            app:destination="@id/setYourProfileFragment" />
+    </fragment>
+
+
+    <fragment
+            android:id="@+id/signInFragment"
+            android:name="com.example.handicraft.fragments.SignInFragment"
+            android:label="SignInFragment">
+            <action
+                android:id="@+id/action_signInFragment_to_signUpFragment"
+                app:destination="@id/signUpFragment" />
+            <action
+                android:id="@+id/action_signInFragment_to_forgetPasswordFragment"
+                app:destination="@id/forgetPasswordFragment" />
+            <action
+                android:id="@+id/action_signInFragment_to_mainFragment"
+                app:destination="@id/mainFragment" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/setYourProfileFragment"
+            android:name="com.example.handicraft.fragments.SetYourProfileFragment"
+            android:label="SetYourProfileFragment">
+            <action
+                android:id="@+id/action_setYourProfileFragment_to_mainFragment"
+                app:destination="@id/mainFragment" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/forgetPasswordFragment"
+            android:name="com.example.handicraft.fragments.ForgetPasswordFragment"
+            android:label="ForgetPasswordFragment">
+            <action
+                android:id="@+id/action_forgetPasswordFragment_to_otpVerificationFragment"
+                app:destination="@id/otpVerificationFragment" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/otpVerificationFragment"
+            android:name="com.example.handicraft.fragments.OTPVerificationFragment"
+            android:label="OTPVerificationFragment">
+            <action
+                android:id="@+id/action_otpVerificationFragment_to_createNewPasswordFragment"
+                app:destination="@id/createNewPasswordFragment" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/createNewPasswordFragment"
+            android:name="com.example.handicraft.fragments.CreateNewPasswordFragment"
+            android:label="CreateNewPasswordFragment">
+            <action
+                android:id="@+id/action_createNewPasswordFragment_to_signInFragment"
+                app:destination="@id/signInFragment" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/mainFragment"
+            android:name="com.example.handicraft.fragments.MainFragment"
+            android:label="MainFragment">
+            <action
+                android:id="@+id/action_mainFragment_to_chatsFragment"
+                app:destination="@id/chatsFragment" />
+            <action
+                android:id="@+id/action_mainFragment_to_notificationsFragment"
+                app:destination="@id/notificationsFragment" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/chatsFragment"
+            android:name="com.example.handicraft.fragments.ChatsFragment"
+            android:label="ChatsFragment" />
+
+        <fragment
+            android:id="@+id/notificationsFragment"
+            android:name="com.example.handicraft_graduation_project_2025.ui.fragments.NotificationsFragment"
+            android:label="NotificationsFragment" />
+
+    </navigation>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_nav_graph"
+    app:startDestination="@id/homeFragment">
+
+        <fragment
+            android:id="@+id/homeFragment"
+            android:name="com.example.handicraft.fragments.HomeFragment"
+            android:label="HomeFragment">
+
+            <action
+                android:id="@+id/action_homeFragment_to_chatsFragment"
+                app:destination="@id/chatsFragment" />
+            <action
+                android:id="@+id/action_homeFragment_to_notificationFragment"
+                app:destination="@id/notificationsFragment" />
+            <action
+                android:id="@+id/action_homeFragment_to_profileFragment"
+                app:destination="@id/profileFragment" />
+            <action
+                android:id="@+id/action_homeFragment_to_settingsFragment"
+                app:destination="@id/settingsFragment" />
+            <action
+                android:id="@+id/action_homeFragment_to_signInFragment2"
+                app:destination="@id/signInFragment2" />
+        </fragment>
+
+
+
+        <fragment
+            android:id="@+id/profileFragment"
+            android:name="com.example.handicraft_graduation_project_2025.ui.fragments.ProfileFragment"
+            android:label="ProfileFragment" />
+
+        <fragment
+            android:id="@+id/productsFragment"
+            android:name="com.example.handicraft_graduation_project_2025.ui.fragments.ProductsFragment"
+            android:label="ProductsFragment" />
+
+        <fragment
+            android:id="@+id/aiServicesFragment"
+            android:name="com.example.handicraft.fragments.AIServicesFragment"
+            android:label="AIServicesFragment" />
+    <fragment
+        android:id="@+id/chatsFragment"
+        android:name="com.example.handicraft.fragments.ChatsFragment"
+        android:label="ChatsFragment" >
+        <action
+            android:id="@+id/action_chatsFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/notificationsFragment"
+        android:name="com.example.handicraft_graduation_project_2025.ui.fragments.NotificationsFragment"
+        android:label="NotificationsFragment" >
+        <action
+            android:id="@+id/action_notificationsFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.handicraft_graduation_project_2025.ui.fragments.SettingsFragment"
+        android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/signInFragment2"
+        android:name="com.example.handicraft.fragments.SignInFragment"
+        android:label="SignInFragment" />
+
+</navigation>
+

@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/background_white"
+    android:layout_height="match_parent">
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:background="@color/background_white"
+        app:layout_constraintTop_toTopOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="24dp">
+
+            <!-- Image Carousel -->
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/imageCarousel"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintHeight_percent="0.45"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/carouselIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:layout_marginBottom="20dp"
+                android:background="@android:color/transparent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/imageCarousel"
+                app:tabBackground="@drawable/tab_selector"
+                app:tabGravity="fill"
+                app:tabIndicatorHeight="0dp" />
+
+            <!-- User Profile -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/userProfileCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:background="@color/background_white"
+                android:layout_marginTop="8dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:layout_constraintTop_toBottomOf="@id/imageCarousel">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/background_white"
+                    android:padding="12dp">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/userAvatar"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/userName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="Mohamed Ayman"
+                        android:textColor="@color/text_primary"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="@id/userAvatar"
+                        app:layout_constraintStart_toEndOf="@id/userAvatar"
+                        app:layout_constraintTop_toTopOf="@id/userAvatar" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Product Title -->
+            <TextView
+                android:id="@+id/productTitle"
+                style="@style/LabelsTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Pearl Beaded Bag"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/userProfileCard" />
+
+            <!-- Product Details Card -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/productDetailsCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:background="@color/background_white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/productTitle">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/background_white"
+                    android:padding="16dp">
+                    <TextView
+                        android:id="@+id/descriptionLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="Description:"
+
+                        android:textColor="@color/text_primary"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                    <TextView
+                        android:id="@+id/descriptionValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="sans-serif"
+                        android:text="description"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toEndOf="@id/categoryLabel"
+                        app:layout_constraintTop_toBottomOf="@id/descriptionLabel" />
+                    <!-- Category -->
+                    <TextView
+                        android:id="@+id/categoryLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="Category:"
+                        android:layout_marginTop="8dp"
+                        android:textColor="@color/text_primary"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/descriptionValue" />
+
+                    <TextView
+                        android:id="@+id/categoryValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="sans-serif"
+                        android:text="Accessories"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toEndOf="@id/categoryLabel"
+                        app:layout_constraintTop_toTopOf="@id/categoryLabel" />
+
+
+                    <!-- Material -->
+                    <TextView
+                        android:id="@+id/materialLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="Material:"
+                        android:textColor="@color/text_primary"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/categoryLabel" />
+
+                    <TextView
+                        android:id="@+id/materialValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="sans-serif"
+                        android:text="Pearl"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toEndOf="@id/materialLabel"
+                        app:layout_constraintTop_toTopOf="@id/materialLabel" />
+
+                    <TextView
+                        android:id="@+id/priceLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="Price:"
+                        android:textColor="@color/text_primary"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/materialLabel" />
+
+                    <TextView
+                        android:id="@+id/priceValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="sans-serif"
+                        android:text="50 EGP"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toEndOf="@id/priceLabel"
+                        app:layout_constraintTop_toTopOf="@id/priceLabel" />
+
+                    <!-- Color Selection -->
+                    <TextView
+                        android:id="@+id/colorLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="@string/available_colors"
+                        android:textColor="@color/text_primary"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/priceLabel" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvColors"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintTop_toBottomOf="@id/colorLabel"
+                        tools:itemCount="4"
+                        tools:listitem="@layout/item_color" />
+
+                    <!-- Size Selection -->
+                    <TextView
+                        android:id="@+id/sizeLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="@string/available_sizes"
+                        android:textColor="@color/text_primary"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/rvColors" />
+
+                    <LinearLayout
+                        android:id="@+id/sizeLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toBottomOf="@id/sizeLabel">
+
+                        <TextView
+                            android:id="@+id/sizeSmall"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="18sp"
+                            android:background="@drawable/size_available"
+                            android:fontFamily="sans-serif"
+                            android:gravity="center"
+                            android:padding="12dp"
+                            android:text="@string/small"
+                            android:textColor="@color/text_white" />
+
+                        <TextView
+                            android:id="@+id/sizeMedium"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="8dp"
+                            android:layout_weight="1"
+                            android:textSize="18sp"
+                            android:background="@drawable/size_available"
+                            android:fontFamily="sans-serif"
+                            android:gravity="center"
+                            android:padding="12dp"
+                            android:text="@string/medium"
+                            android:textColor="@color/text_white" />
+
+                        <TextView
+                            android:id="@+id/sizeLarge"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/size_available"
+                            android:button="@null"
+                            android:fontFamily="sans-serif"
+                            android:gravity="center"
+                            android:padding="12dp"
+                            android:textSize="18sp"
+                            android:text="@string/large"
+                            android:textColor="@color/text_white" />
+                    </LinearLayout>
+
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+            <Button
+                android:id="@+id/contactButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/CustomButton"
+                android:text="Contact Artisan"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/text_white"
+                android:layout_marginBottom="4dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/productDetailsCard"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+    <!-- CTA Button -->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

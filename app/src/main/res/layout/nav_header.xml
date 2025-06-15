@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:background="?attr/colorPrimary">
+
+    <ImageView
+        android:id="@+id/nav_profile_image"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:contentDescription="@string/profile_image"
+        android:src="@drawable/ic_user"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/nav_user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/app_name"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/nav_profile_image"
+        app:layout_constraintTop_toBottomOf="@id/nav_profile_image" />
+
+    <TextView
+        android:id="@+id/nav_show_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textColor="@android:color/white"
+        android:text="@string/show_profile"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/nav_user_name"
+        app:layout_constraintStart_toStartOf="@+id/nav_user_name"
+        app:layout_constraintTop_toBottomOf="@+id/nav_user_name" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

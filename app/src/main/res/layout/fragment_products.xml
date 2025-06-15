@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/purple_500"
+        android:elevation="0dp">
+
+        <!-- Search Section -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            app:layout_constraintBottom_toTopOf="@+id/content_container"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <AutoCompleteTextView
+                android:id="@+id/et_search"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/search_bg"
+                android:completionThreshold="1"
+                android:drawableStart="@drawable/ic_search"
+                android:drawableEnd="@drawable/ic_filter"
+                android:drawablePadding="10dp"
+                android:fontFamily="@font/inter_regular"
+                android:hint="@string/search_on_product"
+                android:imeOptions="actionSearch"
+                android:lines="1"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:popupBackground="@color/background_white"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/text_secondary"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/iv_filtration"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignEnd="@id/et_search"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="8dp"
+                android:padding="10dp"
+                android:src="@drawable/ic_filter" />
+        </RelativeLayout>
+
+        <!-- Main Content Container -->
+        <LinearLayout
+            android:id="@+id/content_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="80dp"
+            android:background="@drawable/custom_background"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <!-- Categories Section -->
+            <TextView
+                android:id="@+id/tv_categories_label"
+                style="@style/LabelsTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/categories" />
+
+            <HorizontalScrollView
+                android:id="@+id/hsv_categories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="10dp">
+
+                    <!-- Jewelry Category -->
+                    <LinearLayout
+                        android:id="@+id/ll_jewelry_category"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/iv_jewelry"
+                            style="@style/CategoryImageStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_jewelry" />
+
+                        <TextView
+                            android:id="@+id/tv_jewelry"
+                            style="@style/CategoryTextStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/jewelry" />
+                    </LinearLayout>
+
+                    <!-- Decoration Category -->
+                    <LinearLayout
+                        android:id="@+id/ll_decoration_category"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/iv_decoration"
+                            style="@style/CategoryImageStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_decoration" />
+
+                        <TextView
+                            android:id="@+id/tv_decoration"
+                            style="@style/CategoryTextStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/decoration" />
+                    </LinearLayout>
+
+                    <!-- Clothes Category -->
+                    <LinearLayout
+                        android:id="@+id/ll_clothes_category"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/iv_clothes"
+                            style="@style/CategoryImageStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_clothes" />
+
+                        <TextView
+                            android:id="@+id/tv_clothes"
+                            style="@style/CategoryTextStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/clothes" />
+                    </LinearLayout>
+
+                    <!-- Accessories Category -->
+                    <LinearLayout
+                        android:id="@+id/ll_accessories_category"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/iv_accessories"
+                            style="@style/CategoryImageStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_accessories" />
+
+                        <TextView
+                            android:id="@+id/tv_accessories"
+                            style="@style/CategoryTextStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/accessories" />
+                    </LinearLayout>
+
+                    <!-- Gifts Category -->
+                    <LinearLayout
+                        android:id="@+id/ll_gifts_category"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/iv_gifts"
+                            style="@style/CategoryImageStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_gifts" />
+
+                        <TextView
+                            android:id="@+id/tv_gifts"
+                            style="@style/CategoryTextStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/gifts" />
+                    </LinearLayout>
+
+                    <!-- Prints Category -->
+                    <LinearLayout
+                        android:id="@+id/ll_prints_category"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/iv_prints"
+                            style="@style/CategoryImageStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_prints" />
+
+                        <TextView
+                            android:id="@+id/tv_prints"
+                            style="@style/CategoryTextStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/prints" />
+                    </LinearLayout>
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <!-- All Products Section -->
+            <TextView
+                android:id="@+id/tv_all_products_label"
+                style="@style/LabelsTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/all" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/no_products_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/no_results"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.4" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/main_regular"
+                    android:text="@string/no_results_found"
+                    android:textColor="@color/text_primary"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="@+id/imageView"
+                    app:layout_constraintStart_toStartOf="@+id/imageView"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/main_regular"
+                    android:gravity="center"
+                    android:text="@string/we_re_sorry_there_are_no_results_for_this_search_please_try_another_search"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@+id/imageView"
+                    app:layout_constraintStart_toStartOf="@+id/imageView"
+                    app:layout_constraintTop_toBottomOf="@+id/textView"
+                    app:layout_constraintWidth_percent="0.8" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_products"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:scrollbars="none"
+                tools:itemCount="5"
+                tools:listitem="@layout/item_product_grid" />
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/content_container"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.65" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/purple_500">
+
+    <TextView
+        android:id="@+id/screen_label"
+        style="@style/titleTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_product"
+        android:layout_marginVertical="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/back_arrow"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:contentDescription="@string/back_button"
+        android:src="@drawable/ic_back"
+        app:layout_constraintBottom_toBottomOf="@+id/screen_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/screen_label" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/custom_background"
+        android:padding="16dp"
+        android:layout_marginTop="80dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Image Upload Section -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="0dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/viewPagerImages"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="#D6EEE9"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/btnDeleteImage"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/bg_circle_purple_light"
+                    android:contentDescription="@string/delete_image_button"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_close"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabAddImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:contentDescription="@string/add_image_button"
+            android:src="@drawable/ic_add_photo"
+            app:layout_constraintBottom_toBottomOf="@id/cardViewImage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@color/background_white" />
+
+        <!-- Product Title -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilProductTitle"
+            style="@style/CustomEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="@string/product_title"
+            app:hintTextColor="@color/text_secondary"
+            app:layout_constraintTop_toBottomOf="@id/cardViewImage">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etProductTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/text_secondary"
+                android:textColor="@color/text_primary"
+                android:inputType="text"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!-- Description -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilDescription"
+            style="@style/CustomEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="@string/description"
+            app:layout_constraintTop_toBottomOf="@id/tilProductTitle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/text_secondary"
+                android:textColor="@color/text_primary"
+                android:gravity="top|start"
+                android:inputType="textMultiLine"
+                android:lines="3"
+                android:maxLines="3"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilProductPrice"
+            style="@style/CustomEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="50dp"
+            android:hint="@string/product_price"
+            app:hintTextColor="@color/text_secondary"
+            app:layout_constraintTop_toBottomOf="@id/tilDescription">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etProductPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/text_secondary"
+                android:textColor="@color/text_primary"
+                android:inputType="number"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="EGP"
+            android:textSize="18sp"
+            android:padding="8dp"
+            android:textColor="@color/text_primary"
+            app:layout_constraintTop_toTopOf="@id/tilProductPrice"
+            app:layout_constraintBottom_toBottomOf="@id/tilProductPrice"
+            app:layout_constraintStart_toEndOf="@id/tilProductPrice"/>
+
+        <!-- Available Sizes -->
+        <TextView
+            android:id="@+id/tvSizesTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/available_sizes"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tilProductPrice" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroupSizes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_marginTop="8dp"
+            app:singleSelection="false"
+            app:layout_constraintTop_toBottomOf="@id/tvSizesTitle">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipSmall"
+                style="@style/Widget.App.Chip"
+                android:text="@string/small" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipMedium"
+                style="@style/Widget.App.Chip"
+                android:text="@string/medium" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipLarge"
+                style="@style/Widget.App.Chip"
+                android:text="@string/large" />
+        </com.google.android.material.chip.ChipGroup>
+
+        <!-- Material Type -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilMaterialType"
+            style="@style/CustomAutoEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="@string/material_type"
+            app:boxBackgroundColor="@color/background_white"
+            app:layout_constraintTop_toBottomOf="@id/chipGroupSizes">
+
+            <AutoCompleteTextView
+                android:id="@+id/actvMaterialType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/text_secondary"
+                android:popupBackground="@color/background_white"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilCategory"
+            style="@style/CustomAutoEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="@string/product_category"
+            app:boxBackgroundColor="@color/background_white"
+            app:layout_constraintTop_toBottomOf="@id/tilMaterialType">
+
+            <AutoCompleteTextView
+                android:id="@+id/actvCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/text_secondary"
+                android:popupBackground="@color/background_white"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Color Selection -->
+        <TextView
+            android:id="@+id/tvColorsTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/available_colors"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tilCategory" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvColors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/tvColorsTitle"
+            tools:itemCount="4"
+            tools:listitem="@layout/item_color" />
+
+        <!-- Submit Button -->
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/CustomButton"
+            android:layout_marginTop="32dp"
+            android:text="@string/add_product"
+            android:textColor="#FFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rvColors"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
