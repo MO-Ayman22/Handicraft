@@ -12,6 +12,8 @@ import com.example.handicraft.data.repository.UserRepository
 import com.example.handicraft_graduation_project_2025.utils.SharedPrefUtil
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class AuthViewModel : ViewModel() {
@@ -36,6 +38,8 @@ class AuthViewModel : ViewModel() {
     private val _profileUpdateResult = MutableLiveData<Result<Unit>>()
     val profileUpdateResult: LiveData<Result<Unit>> get() = _profileUpdateResult
 
+    private val _updateResult = MutableLiveData<Result<Unit>?>()
+    val updateResult: LiveData<Result<Unit>?> = _updateResult
     private var tempUser = User()
 
     fun signUp(context: Context, email: String, password: String, username: String, userType: String) {
@@ -85,26 +89,33 @@ class AuthViewModel : ViewModel() {
         }
     }
 
-    fun updateCraftType(craftType: String) {
-        tempUser = tempUser.copy(craftType = craftType)
+
+    fun updateProfileImage(imageUrl: String) {
+        launchInBackground {
+            _updateResult.postValue(userRepository.updateProfileImageUrl(imageUrl))
+        }
     }
 
     fun updateCraftSkill(craftSkill: String) {
-        tempUser = tempUser.copy(craftSkill = craftSkill)
+        launchInBackground {
+            _updateResult.postValue(userRepository.updateCraftSkill(craftSkill))
+        }
     }
 
     fun updateNationalId(nationalId: String) {
-        tempUser = tempUser.copy(nationalId = nationalId)
+        launchInBackground {
+            _updateResult.postValue(userRepository.updateNationalId(nationalId))
+        }
     }
 
-    fun updateProfileImage(context: Context, imageUrl: String) {
-        tempUser = tempUser.copy(profileImageUrl = imageUrl)
-        viewModelScope.launch {
-            val result = userRepository.saveUser(tempUser)
-            if (result.isSuccess) {
-                SharedPrefUtil.saveUid(context, authRepository.getCurrentUserId() ?: "")
-            }
-            _profileUpdateResult.value = result
+    fun updateCraftType(craftType: String) {
+        launchInBackground {
+            _updateResult.postValue(userRepository.updateCraftType(craftType))
+        }
+    }
+    private fun launchInBackground(task: suspend () -> Unit) {
+        CoroutineScope(Dispatchers.IO).launch {
+            task()
         }
     }
 

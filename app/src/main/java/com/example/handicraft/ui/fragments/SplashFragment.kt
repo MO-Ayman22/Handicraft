@@ -7,10 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.handicraft.R
 import com.example.handicraft.databinding.FragmentSplashBinding
 import com.example.handicraft_graduation_project_2025.ui.viewmodels.SplashViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class SplashFragment : Fragment() {
@@ -52,7 +55,7 @@ class SplashFragment : Fragment() {
 //                    findNavController().navigate(R.id.action_splashFragment_to_onboardingFragment)
 //                }
 //            }
-//    }
+//        }
 
         findNavController().navigate(R.id.action_splashFragment_to_onboardingFragment)
 

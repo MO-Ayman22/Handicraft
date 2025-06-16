@@ -1,10 +1,10 @@
 package com.example.handicraft.fragments
 
-
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +19,7 @@ import com.example.handicraft.databinding.FragmentSetYourProfileBinding
 import com.example.handicraft.viewmodels.AuthViewModel
 import com.example.handicraft_graduation_project_2025.utils.CloudinaryManager
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -78,23 +79,8 @@ class SetYourProfileFragment : Fragment() {
         }
 
         // Setup date picker for birthdate
-        binding.birthdateEditText.setOnClickListener { showDatePicker() }
-        binding.birthdateEditText.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) showDatePicker()
-        }
-        // Enable clicking the calendar icon (drawableEnd)
-        binding.birthdateEditText.setOnTouchListener { _, event ->
-            if (event.action == android.view.MotionEvent.ACTION_UP) {
-                val drawable = binding.birthdateEditText.compoundDrawablesRelative[2] // drawableEnd
-                if (drawable != null && event.rawX >= (binding.birthdateEditText.right - drawable.bounds.width())) {
-                    showDatePicker()
-                    true
-                } else {
-                    false
-                }
-            } else {
-                false
-            }
+        binding.birthdateEditText.setOnClickListener {
+            showDatePicker()
         }
 
         // Back button
@@ -134,29 +120,6 @@ class SetYourProfileFragment : Fragment() {
         }
     }
 
-    private fun showDatePicker() {
-        // Initialize with current date or previously selected date
-        val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH)
-        val day = calendar.get(Calendar.DAY_OF_MONTH)
-
-        val datePickerDialog = DatePickerDialog(
-            requireContext(),
-            { _, selectedYear, selectedMonth, selectedDay ->
-                // Update calendar with selected date
-                calendar.set(selectedYear, selectedMonth, selectedDay)
-                // Format and set date in EditText
-                binding.birthdateEditText.setText(dateFormat.format(calendar.time))
-            },
-            year,
-            month,
-            day
-        )
-
-        // Set maximum date to today (prevent future dates)
-        datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
-        datePickerDialog.show()
-    }
 
     private fun validateInputs(firstName: String, lastName: String, phone: String, location: String, birthdate: String): Boolean {
         return when {
@@ -202,10 +165,14 @@ class SetYourProfileFragment : Fragment() {
         imageFile?.let { file ->
             CoroutineScope(Dispatchers.Main).launch {
                 //binding.progressBar.visibility = View.VISIBLE
-                val userId = viewModel.isLoggedIn(requireContext()).takeIf { it }?.let {
-                    com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid
-                } ?: run {
-                    //binding.progressBar.visibility = View.GONE
+                if (!viewModel.isLoggedIn(requireContext())) {
+                   // binding.progressBar.visibility = View.GONE
+                    Snackbar.make(binding.root, getString(R.string.no_authenticated_user), Snackbar.LENGTH_LONG).show()
+                    return@launch
+                }
+
+                val userId = FirebaseAuth.getInstance().currentUser?.uid ?: run {
+                   // binding.progressBar.visibility = View.GONE
                     Snackbar.make(binding.root, getString(R.string.no_authenticated_user), Snackbar.LENGTH_LONG).show()
                     return@launch
                 }
@@ -218,14 +185,27 @@ class SetYourProfileFragment : Fragment() {
                     imageField = "profileImageUrl"
                 )
 
-                //binding.progressBar.visibility = View.GONE
+               // binding.progressBar.visibility = View.GONE
                 result.onSuccess { imageUrl ->
-                    viewModel.updateProfileImage(requireContext(), imageUrl)
+                    Log.d("TAG", "uploadImageToCloudinary: ")
+                    viewModel.updateProfileImage(imageUrl)
                 }.onFailure { e ->
                     Snackbar.make(binding.root, e.message ?: getString(R.string.image_upload_failed), Snackbar.LENGTH_LONG).show()
                 }
             }
         }
+    }
+    private fun showDatePicker() {
+        val calendar = Calendar.getInstance()
+        DatePickerDialog(
+            requireContext(),
+            { _, year, month, day ->
+                binding.birthdateEditText.setText(String.format("%02d/%02d/%04d", day, month + 1, year))
+            },
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        ).show()
     }
 
     override fun onDestroyView() {

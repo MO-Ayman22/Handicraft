@@ -30,12 +30,12 @@
 
         <fragment
             android:id="@+id/profileFragment"
-            android:name="com.example.handicraft_graduation_project_2025.ui.fragments.ProfileFragment"
+            android:name="com.example.handicraft.ui.profile_feature.fragments.ProfileFragment"
             android:label="ProfileFragment" />
 
         <fragment
             android:id="@+id/productsFragment"
-            android:name="com.example.handicraft_graduation_project_2025.ui.fragments.ProductsFragment"
+            android:name="com.example.handicraft.ui.product_feature.fragments.ProductsFragment"
             android:label="ProductsFragment" />
 
         <fragment
@@ -53,7 +53,7 @@
 
     <fragment
         android:id="@+id/notificationsFragment"
-        android:name="com.example.handicraft_graduation_project_2025.ui.fragments.NotificationsFragment"
+        android:name="com.example.handicraft.fragments.NotificationFragment"
         android:label="NotificationsFragment" >
         <action
             android:id="@+id/action_notificationsFragment_to_homeFragment"

@@ -7,6 +7,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
@@ -16,12 +17,47 @@ class UserRepository(
     private val auth: FirebaseAuth
 ) {
     private val userCollection = firestore.collection("users")
+    private val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
 
+    suspend fun updateProfileImageUrl(imageUrl: String): Result<Unit> {
+        return updateField("profileImageUrl", imageUrl)
+    }
+
+    suspend fun updateCraftSkill(craftSkill: String): Result<Unit> {
+        return updateField("craftSkill", craftSkill)
+    }
+
+    suspend fun updateNationalId(nationalId: String): Result<Unit> {
+        return updateField("nationalId", nationalId)
+    }
+
+    suspend fun updateCraftType(craftType: String): Result<Unit> {
+        return updateField("craftType", craftType)
+    }
+    private suspend fun updateField(field: String, value: Any): Result<Unit> {
+        return try {
+            currentUserId?.let { uid ->
+                userCollection.document(uid).update(field, value).await()
+                Result.success(Unit)
+            } ?: Result.failure(Exception("User not logged in"))
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
     // ------------------- SAVE / GET USER -------------------
 
     suspend fun saveUser(user: User): Result<Unit> = withContext(Dispatchers.IO) {
         try {
             userCollection.document(user.uid).set(user).await()
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+     suspend fun updateUser(user: User): Result<Unit> = withContext(Dispatchers.IO) {
+        try {
+            userCollection.document(user.uid)
+                .set(user, SetOptions.merge()).await()
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
