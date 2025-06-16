@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="12dp"
+    android:layout_margin="8dp"
+    android:background="@color/background_white"
+    >
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@color/background_white"
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/follower_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/ic_user"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/follower_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_semi_bold"
+            android:text="Mohamed Ayman"
+            android:textColor="@color/text_primary"
+            android:textSize="14sp"
+            android:layout_marginStart="10dp"
+            app:layout_constraintStart_toEndOf="@id/follower_image"
+            app:layout_constraintBottom_toTopOf="@+id/follower_email"
+            app:layout_constraintTop_toTopOf="@id/follower_image"
+            app:layout_constraintVertical_chainStyle="packed"/>
+
+        <TextView
+            android:id="@+id/follower_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_regular"
+            android:text="2moo.ayman@gmail.com"
+            android:textColor="@color/text_secondary"
+            android:textSize="13sp"
+            app:layout_constraintStart_toStartOf="@id/follower_name"
+            app:layout_constraintBottom_toBottomOf="@+id/follower_image"
+            app:layout_constraintTop_toBottomOf="@+id/follower_name" />
+
+        <TextView
+            android:id="@+id/follower_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/inter_regular"
+            android:text="@string/hand_maker"
+            android:textColor="@color/text_secondary"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="@+id/follower_name"
+            app:layout_constraintStart_toEndOf="@+id/follower_name" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/follow_but"
+            style="@style/CustomButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/follow"
+            android:padding="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/follower_email"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/follower_name" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

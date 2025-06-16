@@ -1,5 +1,5 @@
 import androidx.recyclerview.widget.DiffUtil
-import com.example.handicraft_graduation_project_2025.ui.product_feature.adapters.UiProduct
+import com.example.handicraft.ui.profile_feature.adapters.UiProduct
 
 class UiProductDiffCallback(
     private val oldList: List<UiProduct>,

@@ -1,4 +1,4 @@
-package com.example.handicraft_graduation_project_2025.ui.product_feature.adapters
+package com.example.handicraft.ui.product_feature.adapters
 
 import androidx.recyclerview.widget.DiffUtil
 

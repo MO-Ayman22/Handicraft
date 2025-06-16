@@ -11,7 +11,7 @@ import com.example.handicraft.data.models.User
 import com.example.handicraft.databinding.FragmentProductDetailsBinding
 import com.example.handicraft_graduation_project_2025.data.models.Product
 import com.example.handicraft.ui.product_feature.adapters.ColorAdapter
-import com.example.handicraft_graduation_project_2025.ui.product_feature.adapters.ProductImageAdapter
+import com.example.handicraft.ui.product_feature.adapters.ProductImageAdapter
 import com.example.handicraft.ui.product_feature.viewmodels.ProductsViewModel
 import com.example.handicraft.utils.Constants
 

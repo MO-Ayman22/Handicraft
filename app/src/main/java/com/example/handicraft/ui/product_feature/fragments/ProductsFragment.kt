@@ -15,11 +15,11 @@ import com.example.handicraft.R
 import com.example.handicraft.data.models.User
 import com.example.handicraft.databinding.DialogFiltrationBinding
 import com.example.handicraft.databinding.FragmentProductsBinding
+import com.example.handicraft.ui.product_feature.adapters.OnProductClickListener
 
 import com.example.handicraft_graduation_project_2025.data.models.Product
 
-import com.example.handicraft_graduation_project_2025.ui.product_feature.adapters.OnProductClickListener
-import com.example.handicraft_graduation_project_2025.ui.product_feature.adapters.ProductGridAdapter
+import com.example.handicraft.ui.product_feature.adapters.ProductGridAdapter
 import com.example.handicraft.ui.product_feature.viewmodels.ProductsViewModel
 import com.example.handicraft.utils.Constants
 import com.example.handicraft_graduation_project_2025.ui.product_feature.fragments.CategoryFragment

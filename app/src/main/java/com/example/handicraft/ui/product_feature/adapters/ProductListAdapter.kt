@@ -9,8 +9,7 @@ import com.example.handicraft.R
 import com.example.handicraft.data.models.User
 import com.example.handicraft.databinding.ItemProductLinearBinding
 import com.example.handicraft_graduation_project_2025.data.models.Product
-import com.example.handicraft_graduation_project_2025.ui.product_feature.adapters.OnProductClickListener
-import com.example.handicraft_graduation_project_2025.ui.product_feature.adapters.UiProduct
+import com.example.handicraft.ui.profile_feature.adapters.UiProduct
 
 
 class ProductListAdapter(

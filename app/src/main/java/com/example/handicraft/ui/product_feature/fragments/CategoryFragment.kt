@@ -10,11 +10,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.handicraft.R
 import com.example.handicraft.data.models.User
 import com.example.handicraft.databinding.FragmentCategoryBinding
+import com.example.handicraft.ui.product_feature.adapters.OnProductClickListener
 import com.example.handicraft.ui.product_feature.fragments.ProductDetailsFragment
 import com.example.handicraft.utils.Constants
 import com.example.handicraft_graduation_project_2025.data.models.Product
-import com.example.handicraft_graduation_project_2025.ui.product_feature.adapters.OnProductClickListener
-import com.example.handicraft_graduation_project_2025.ui.product_feature.adapters.ProductGridAdapter
+import com.example.handicraft.ui.product_feature.adapters.ProductGridAdapter
 import com.example.handicraft.ui.product_feature.viewmodels.CategoryViewModel
 import com.example.handicraft_graduation_project_2025.utils.Resource
 import com.example.handicraft_graduation_project_2025.utils.SharedPrefUtil

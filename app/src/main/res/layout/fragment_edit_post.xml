@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/newPostFragmentRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingVertical="100dp"
+    android:paddingHorizontal="24dp"
+    android:background="#80000000">
+
+    <androidx.cardview.widget.CardView
+
+
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/postCard"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/background_white"
+            android:padding="16dp">
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                android:theme="@style/Widget.AppCompat.ProgressBar"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+            <ImageView
+                android:id="@+id/closeButton"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="end"
+                android:src="@drawable/ic_close"
+                app:layout_constraintTop_toTopOf="@id/page_label"
+                app:layout_constraintBottom_toBottomOf="@id/page_label"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!-- العنوان -->
+            <TextView
+                android:id="@+id/page_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/LabelsTextStyle"
+                android:text="@string/edit_post"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/postEditText"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:hint="Write your post"
+                android:textColorHint="@color/text_secondary"
+                android:textColor="@color/text_primary"
+                android:gravity="start|top"
+                android:padding="12dp"
+                android:background="@drawable/edittext_background"
+                android:textAlignment="viewStart"
+                android:layout_marginVertical="24dp"
+                android:inputType="textMultiLine"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/publishButton"
+                app:layout_constraintTop_toBottomOf="@id/page_label"/>
+
+            <Button
+                android:id="@+id/publishButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/CustomButton"
+                android:text="@string/save"
+                android:textColor="@color/background_white"
+                android:layout_marginBottom="4dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

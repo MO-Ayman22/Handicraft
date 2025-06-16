@@ -1,205 +1,166 @@
 <resources>
-    <string name="app_name">Handicraft</string>
-    <string name="home">Home</string>
-    <string name="products">Products</string>
-    <string name="services">AI Services</string>
-    <string name="my_account">Profile</string>
-    <string name="welcome">Welcome</string>
-    <string name="in_handicraft_community">to the HandiCraft community</string>
-    <string name="already_have_account">Already have an account? Sign In</string>
-    <string name="no_account_sign_up">Don\'t have an account? Sign Up</string>
-    <string name="forgot_password">Forgot Password?</string>
-    <string name="remember_me">Remember me</string>
-    <string name="next">Next</string>
-    <string name="skip_now">Skip</string>
-    <string name="get_started">Get Started</string>
-    <string name="craft_type_title">What\'s your craft type?</string>
-
-    <string name="clothing">Clothing</string>
-    <string name="craft_skill_title">How skilled are you in this craft?</string>
-    <string name="beginner">Beginner</string>
-    <string name="intermediate">Intermediate</string>
-    <string name="advanced">Advanced</string>
-    <string name="enter_national_id">Enter your National ID</string>
-    <string name="national_id">National ID</string>
-    <string name="set_your_profile">Set your profile</string>
-    <string name="account_created">Account created successfully</string>
-    <string name="account_created_message">You can now browse the app and enjoy the artisan community</string>
-    <string name="submit">Send</string>
-    <string name="enter_otp">Enter OTP code</string>
-    <string name="verify">Verify</string>
-    <string name="passwords_do_not_match">Passwords do not match</string>
-    <string name="settings">Settings</string>
-    <string name="logout">Log Out</string>
-    <string name="logout_confirmation">Are you sure you want to log out?</string>
-    <string name="confirm">Confirm</string>
-    <string name="edit_profile">Edit Profile</string>
-
-    <string-array name="user_types">
-        <item>Handimaker</item>
-        <item>Client</item>
-    </string-array>
-
-    <string-array name="gender_options">
-        <item>Male</item>
-        <item>Female</item>
-        <item>Other</item>
-    </string-array>
-
+    <string name="app_name" translatable="false">Handicraft</string>
+    <string name="message" translatable="false">Message</string>
+    <string name="add_product" translatable="false">Add Product</string>
+    <string name="product_name" translatable="false">Product Name</string>
+    <string name="product_image" translatable="false">Product Image</string>
+    <string name="delete" translatable="false">Delete</string>
+    <string name="edit" translatable="false">Edit</string>
+    <string name="available_colors" translatable="false">Available Colors *</string>
+    <string name="available_sizes" translatable="false">Available Sizes *</string>
+    <string name="description" translatable="false">Description *</string>
+    <string name="product_title" translatable="false">Product Title *</string>
+    <string name="add_image_button" translatable="false">Add image button</string>
+    <string name="delete_image_button" translatable="false">Delete image button</string>
+    <string name="product_category" translatable="false">Product Category *</string>
+    <string name="product_price" translatable="false">Product Price *</string>
+    <string name="categories" translatable="false">Categories</string>
+    <string name="category" translatable="false">Category</string>
+    <string name="size" translatable="false">Size</string>
+    <string name="small" translatable="false">Small</string>
+    <string name="medium" translatable="false">Medium</string>
+    <string name="large" translatable="false">Large</string>
+    <string name="material" translatable="false">Material</string>
+    <string name="material_type" translatable="false">Material Type *</string>
+    <string name="prints" translatable="false">Prints</string>
+    <string name="gifts" translatable="false">Gifts</string>
+    <string name="clothes" translatable="false">Clothes</string>
+    <string name="accessories" translatable="false">Accessories</string>
+    <string name="jewelry" translatable="false">Jewelry</string>
+    <string name="decoration" translatable="false">Decoration</string>
+    <string name="filtration" translatable="false">Filtration</string>
+    <string name="generate_description" translatable="false">Generate Description</string>
+    <string name="enter_the_craftsman_name" translatable="false">Enter The Craftsman Name</string>
+    <string name="craftsman_name" translatable="false">Craftsman name</string>
+    <string name="all" translatable="false">All</string>
+    <string name="male" translatable="false">Male</string>
+    <string name="female" translatable="false">Female</string>
+    <string name="wood" translatable="false">Wood</string>
+    <string name="plastic" translatable="false">Plastic</string>
+    <string name="glass" translatable="false">Glass</string>
+    <string name="wool" translatable="false">Wool</string>
+    <string name="pearls" translatable="false">Pearls</string>
+    <string name="cloth" translatable="false">Cloth</string>
+    <string name="metal" translatable="false">Metal</string>
+    <string name="beads" translatable="false">Beads</string>
+    <string name="epoxy" translatable="false">Epoxy</string>
+    <string name="pottery" translatable="false">Pottery</string>
+    <string name="lather" translatable="false">Lather</string>
+    <string name="cotton" translatable="false">Cotton</string>
+    <string name="silk" translatable="false">Silk</string>
+    <string name="username_required" translatable="false">Username is required</string>
+    <string name="invalid_email" translatable="false">Invalid email address</string>
+    <string name="password_too_short" translatable="false">Password must be at least 6 characters</string>
+    <string name="passwords_dont_match" translatable="false">Passwords do not match</string>
+    <string name="sign_up_failed" translatable="false">Sign-up failed</string>
+    <string name="sign_in_failed" translatable="false">Sign-in failed</string>
+    <string name="reset_password_failed" translatable="false">Password reset failed</string>
+    <string name="otp_verification_failed" translatable="false">OTP verification failed</string>
+    <string name="invalid_otp" translatable="false">Invalid OTP</string>
+    <string name="otp_resent" translatable="false">OTP resent</string>
+    <string name="image_upload_failed" translatable="false">Image upload failed</string>
+    <string name="no_authenticated_user" translatable="false">No authenticated user found</string>
+    <string name="invalid_birthdate" translatable="false">Invalid birthdate</string>
+    <string name="select_craft_type" translatable="false">Please select a craft type</string>
+    <string name="select_craft_skill" translatable="false">Please select a craft skill</string>
+    <string name="national_id_required" translatable="false">National ID is required</string>
+    <string name="first_name_required" translatable="false">First name is required</string>
+    <string name="last_name_required" translatable="false">Last name is required</string>
+    <string name="invalid_phone" translatable="false">Invalid phone number</string>
+    <string name="location_required" translatable="false">Location is required</string>
+    <string name="birthdate_required" translatable="false">Birthdate is required</string>
+    <string name="craft_type_title" translatable="false">What\'s your craft type?</string>
+    <string name="craft_skill_title" translatable="false">How skilled are you in this craft?</string>
+    <string name="beginner" translatable="false">Beginner</string>
+    <string name="intermediate" translatable="false">Intermediate</string>
+    <string name="advanced" translatable="false">Advanced</string>
+    <string name="enter_national_id" translatable="false">Enter your National ID</string>
+    <string name="national_id" translatable="false">National ID</string>
+    <string name="hand_maker" translatable="false">Handmaker</string>
+    <string name="favourites" translatable="false">Favourites</string>
+    <string name="followers" translatable="false">Followers</string>
+    <string name="following" translatable="false">Following</string>
+    <string name="follow" translatable="false">Follow</string>
+    <string name="unfollow" translatable="false">Unfollow</string>
+    <string name="posts" translatable="false">Posts</string>
+    <string name="you_have_no_products_yet" translatable="false">You have no products yet</string>
+    <string name="this_user_have_no_posts_yet" translatable="false">This user has no data yet</string>
+    <string name="this_user_have_no_products_yet" translatable="false">"This user has no products yet "</string>
+    <string name="edit_post" translatable="false">Edit post</string>
+    <string name="save" translatable="false">Save</string>
     <string name="onboarding_title1">Welcome to HandiCraft</string>
     <string name="onboarding_desc1">Explore a new level of connection and support in our first-of-its-kind artisan community</string>
+
     <string name="onboarding_title2">Welcome to HandiCraft</string>
     <string name="onboarding_desc2">Enjoy a unique experience with handmade artisan products</string>
+
     <string name="onboarding_title3">Welcome to HandiCraft</string>
-    <string name="onboarding_desc3">We provide customized services to help you understand your target audience and develop products that meet their needs</string>
-    <string name="sign_up">Sign Up</string>
-    <string name="sign_up_description">Fill in your information below or sign up using your social account.</string>
-    <string name="sign_up_methods">Or Sign Up with</string>
-    <string name="sign_in">Sign In</string>
-    <string name="sign_in_description">Hello! Welcome back.</string>
-    <string name="forget_password">Forget Password</string>
-    <string name="forget_password_description">Please specify the contact details that we should use to reset your password.</string>
+    <string name="onboarding_desc3">We provide customized services to help you understand your target audience and develop products that meet their needs precisely</string>
+
+    <string name="search">Search</string>
+    <string name="reset">Reset</string>
+    <string name="chats">Chats</string>
+    <string name="add_comment">Add_comment</string>
+    <string name="next">Next</string>
+    <string name="clothing">Clothing</string>
+    <string name="create_new_password">Create_new_password</string>
+    <string name="create_new_password_desc">Create_new_password_desc</string>
+    <string name="new_password">New_password</string>
+    <string name="confirm_password">Confirm_password</string>
+    <string name="submit">Submit</string>
+    <string name="forget_password">Forget_password</string>
+    <string name="forget_password_description">Forget_password_description</string>
+    <string name="sms">Sms</string>
     <string name="email">Email</string>
-    <string name="sms">SMS</string>
-    <string name="password">Password</string>
-    <string name="username">Username</string>
-    <string name="user_type">User Type</string>
-    <string name="reset_password">Reset Password</string>
+    <string name="welcome">Welcome</string>
+    <string name="in_handicraft_community">In_handicraft_community</string>
+    <string name="phone_verification">Phone_verification</string>
+    <string name="phone_verification_descr">Phone_verification_descr</string>
+    <string name="verify">Verify</string>
+    <string name="phone_verification_confirm">Phone_verification_confirm</string>
+    <string name="resend_otp">Resend_otp</string>
+    <string name="notifications">Notifications</string>
+    <string name="skip_now">Skip_now</string>
+    <string name="already_have_account">Already_have_account</string>
+    <string name="search_on_product">Search_on_product</string>
+    <string name="no_results_found">No_results_found</string>
+    <string name="we_re_sorry_there_are_no_results_for_this_search_please_try_another_search">We_re_sorry_there_are_no_results_for_this_search_please_try_another_search</string>
+    <string name="set_your_profile">Set_your_profile</string>
+    <string name="first_name">First_name</string>
+    <string name="last_name">Last_name</string>
     <string name="phone">Phone</string>
-    <string name="otp">Enter OTP</string>
-    <string name="new_password">New Password</string>
-    <string name="confirm_password">Confirm Password</string>
-    <string name="first_name">First Name</string>
-    <string name="last_name">Last Name</string>
     <string name="location">Location</string>
     <string name="birthdate">Birthdate</string>
-    <string name="phone_verification">Phone Verification</string>
-    <string name="phone_verification_descr">Enter your OTP code here</string>
-    <string name="phone_verification_confirm">Didn\'t receive the code?</string>
-    <string name="resend_otp">Resend Code</string>
-    <string name="create_new_password">Create New Password</string>
-    <string name="create_new_password_desc">Please enter your new password.</string>
-    <string name="show_profile">Show Profile</string>
-
-    <!--  Profile and Settings  -->
-    <string name="password_manager">Password Manager</string>
-    <string name="blocked_accounts">Blocked Accounts</string>
-    <string name="unblock">Unblock</string>
-    <string name="profile_updated">Profile Updated</string>
-    <string name="profile_updated_message">Your profile has been updated successfully.</string>
-    <string name="password_updated">Password Updated</string>
-    <string name="password_updated_message">Your password has been updated successfully.</string>
-    <string name="dark_mode">Dark Mode</string>
-    <string name="favorites">Favourites</string>
+    <string name="settings">Settings</string>
+    <string name="edit_account">Edit_account</string>
+    <string name="password_manager">Password_manager</string>
+    <string name="blocked_accounts">Blocked_accounts</string>
+    <string name="logout">Logout</string>
+    <string name="sign_in">Sign_in</string>
+    <string name="sign_in_description">Sign_in_description</string>
+    <string name="password">Password</string>
+    <string name="remember_me">Remember_me</string>
+    <string name="forgot_password">Forgot_password</string>
+    <string name="no_account_sign_up">No_account_sign_up</string>
+    <string name="sign_up_methods">Sign_up_methods</string>
+    <string name="sign_up">Sign_up</string>
+    <string name="sign_up_description">Sign_up_description</string>
+    <string name="username">Username</string>
+    <string name="profile_image">Profile_image</string>
+    <string name="show_profile">Show_profile</string>
+    <string name="home">Home</string>
+    <string name="products">Products</string>
+    <string name="services">Services</string>
+    <string name="my_account">My_account</string>
+    <string name="favorites">Favorites</string>
     <string name="language">Language</string>
-
-    <!--  Blocked Accounts  -->
-    <string name="back_button">Back</string>
-    <string name="blocked_users_list">List of Blocked Users</string>
-    <string name="blocked_user">Blocked user %s</string>
-    <string name="unblock_button">Unblock user %s</string>
-    <string name="unblock_confirmation">Are you sure you want to unblock %s?</string>
-    <string name="cancel">Cancel</string>
-
-    <!--  Home Fragment  -->
-    <string name="banner_image">Promotional Banner</string>
-    <string name="banner_text">Discover Handmade Crafts!</string>
-    <string name="profile_image">Profile Image</string>
-    <string name="notifications">Notifications</string>
-    <string name="chats">Chats</string>
-    <string name="search_placeholder">Search.......</string>
-
-    <!--  General  -->
-    <string name="error">Error</string>
-    <string name="ok">OK</string>
-
-    <!--  Products  -->
-    <string name="product_name">Product Name</string>
-
-
-    <!--  AI Services  -->
-    <string name="generate_description">Generate Description</string>
-
-    <!--  Accessibility  -->
-    <string name="search_bar">Search</string>
-    <string name="enter_message">Enter message</string>
-    <string name="add_comment">Add comment</string>
-
-    <string name="username_required">Username is required</string>
-    <string name="invalid_email">Invalid email address</string>
-    <string name="password_too_short">Password must be at least 6 characters</string>
-    <string name="passwords_dont_match">Passwords do not match</string>
-    <string name="sign_up_failed">Sign-up failed</string>
-    <string name="select_craft_type">Please select a craft type</string>
-    <string name="select_craft_skill">Please select a craft skill</string>
-    <string name="national_id_required">National ID is required</string>
-    <string name="first_name_required">First name is required</string>
-    <string name="last_name_required">Last name is required</string>
-    <string name="invalid_phone">Invalid phone number</string>
-    <string name="location_required">Location is required</string>
-    <string name="birthdate_required">Birthdate is required</string>
-    <string name="profile_update_failed">Profile update failed</string>
-    <string name="sign_in_failed">Sign-in failed</string>
-    <string name="reset_password_failed">Password reset failed</string>
-    <string name="invalid_otp">Invalid OTP</string>
-    <string name="otp_verification_failed">OTP verification failed</string>
-    <string name="otp_resent">OTP resent</string>
+    <string name="dark_mode">Dark mode</string>
     <string name="password_update_failed">Password update failed</string>
-    <string name="image_upload_failed">Image upload failed</string>
-    <string name="no_authenticated_user">No authenticated user found</string>
-    <string name="invalid_birthdate">Invalid birthdate</string>
-
-
-    <string name="followers">Followers</string>
-    <string name="following">Following</string>
-    <string name="posts">Posts</string>
-    <string name="message">Message</string>
-    <string name="follow">Follow</string>
-    <string name="hand_maker">Handmaker</string>
-    <string name="jewelry">Jewelry</string>
-    <string name="clothes">Clothes</string>
-    <string name="decoration">Decoration</string>
-    <string name="accessories">Accessories</string>
-    <string name="gifts">Gifts</string>
-    <string name="filtration">Filtration</string>
-    <string name="category">Category</string>
-    <string name="prints">Prints</string>
-    <string name="material">Material</string>
-    <string name="size">Size</string>
-    <string name="large">Large</string>
-    <string name="enter_the_craftsman_name">Enter The Craftsman Name</string>
-    <string name="medium">Medium</string>
-    <string name="small">Small</string>
-    <string name="craftsman_name">Craftsman name</string>
-    <string name="plastic">Plastic</string>
-    <string name="wood">Wood</string>
-    <string name="glass">Glass</string>
-    <string name="wool">Wool</string>
-    <string name="pearls">Pearls</string>
-    <string name="cloth">Cloth</string>
-    <string name="metal">Metal</string>
-    <string name="beads">Beads</string>
-    <string name="epoxy">Epoxy</string>
-    <string name="lather">Lather</string>
-    <string name="cotton">Cotton</string>
-    <string name="silk">Silk</string>
-    <string name="pottery">Pottery</string>
-    <string name="male">Male</string>
-    <string name="female">Female</string>
-
-    <array name="genders">
-        <item>@string/male</item>
-        <item>@string/female</item>
-    </array>
-
-    <array name="productCategories">
-        <item>@string/accessories</item>
-        <item>@string/decoration</item>
-        <item>@string/clothes</item>
-        <item>@string/jewelry</item>
-        <item>@string/prints</item>
-        <item>@string/gifts</item>
-    </array>
+    <string name="logout_confirmation">Logout Confirmaiton</string>
+    <string name="cancel">Cancel</string>
+    <string name="get_started">Get started</string>
+    <string name="profile_update_failed">Profile updated failed</string>
+    <string name="confirm">Confirm</string>
 
     <array name="materials">
         <item>@string/wood</item>
@@ -215,33 +176,25 @@
         <item>@string/cloth</item>
         <item>@string/cotton</item>
     </array>
-
-    <string name="delete">Delete</string>
-    <string name="product_image">Product_image</string>
-    <string name="search_on_product">Search on product</string>
-    <string name="categories">Categories</string>
-    <string name="all">All</string>
-    <string name="edit_account">Edit Account</string>
-    <string name="user_name">User Name</string>
-    <string name="user_email">User Email</string>
-    <string name="phone_number">Phone Number</string>
-    <string name="address">Address</string>
-    <string name="gender">Gender</string>
-    <string name="birth_date">Birth Date</string>
-    <string name="hello_blank_fragment">hello_blank_fragment</string>
-    <string name="add_product">Add Product</string>
-    <string name="material_type">Material Type *</string>
-    <string name="favourites">Favourites</string>
-    <string name="available_colors">Available Colors *</string>
-    <string name="available_sizes">Available Sizes *</string>
-    <string name="description">Description *</string>
-    <string name="product_title">Product Title *</string>
-    <string name="add_image_button">Add image button</string>
-    <string name="delete_image_button">Delete image button</string>
-    <string name="product_category">Product Category *</string>
-    <string name="product_price">Product Price *</string>
-    <string name="no_results_found">No results found</string>
-    <string name="we_re_sorry_there_are_no_results_for_this_search_please_try_another_search">We\'re sorry, there are no results for this search. Please try another search.</string>
-    <string name="search">Search</string>
-    <string name="reset">Reset</string>
+    <array name="productCategories">
+        <item>@string/accessories</item>
+        <item>@string/decoration</item>
+        <item>@string/clothes</item>
+        <item>@string/jewelry</item>
+        <item>@string/prints</item>
+        <item>@string/gifts</item>
+    </array>
+    <string-array name="gender_options">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Other</item>
+    </string-array>
+    <array name="genders">
+        <item>@string/male</item>
+        <item>@string/female</item>
+    </array>
+    <string-array name="user_types">
+        <item>Handimaker</item>
+        <item>Client</item>
+    </string-array>
 </resources>

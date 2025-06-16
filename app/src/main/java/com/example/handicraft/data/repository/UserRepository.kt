@@ -133,25 +133,6 @@ class UserRepository(
         }
     }
 
-    suspend fun addFollowing(userId: String, followingId: String): Result<Unit> = withContext(Dispatchers.IO) {
-        try {
-            userCollection.document(userId)
-                .update("following", FieldValue.arrayUnion(followingId)).await()
-            Result.success(Unit)
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
-
-    suspend fun removeFollowing(userId: String, followingId: String): Result<Unit> = withContext(Dispatchers.IO) {
-        try {
-            userCollection.document(userId)
-                .update("following", FieldValue.arrayRemove(followingId)).await()
-            Result.success(Unit)
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
 
     suspend fun followUser(currentUserId: String, targetUserId: String): Result<Unit> = withContext(Dispatchers.IO) {
         try {

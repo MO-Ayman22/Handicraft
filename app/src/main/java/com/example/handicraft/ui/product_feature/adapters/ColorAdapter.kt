@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.handicraft.R
 import com.example.handicraft.databinding.ItemColorBinding
-import com.example.handicraft_graduation_project_2025.ui.product_feature.adapters.ColorDiffUtil
 
 
 class ColorAdapter(

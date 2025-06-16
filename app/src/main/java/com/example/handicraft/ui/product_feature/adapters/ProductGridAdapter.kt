@@ -1,4 +1,4 @@
-package com.example.handicraft_graduation_project_2025.ui.product_feature.adapters
+package com.example.handicraft.ui.product_feature.adapters
 
 import android.content.res.Resources
 import android.util.Log
@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.example.handicraft.R
 import com.example.handicraft.data.models.User
 import com.example.handicraft.databinding.ItemProductGridBinding
+import com.example.handicraft.ui.profile_feature.adapters.UiProduct
 import com.example.handicraft_graduation_project_2025.data.models.Product
 
 

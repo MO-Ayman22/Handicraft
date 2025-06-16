@@ -30,8 +30,9 @@ import com.example.handicraft.data.repository.UserRepository
 import com.example.handicraft.databinding.FragmentCommentBottomSheetBinding
 import com.example.handicraft.databinding.FragmentHomeBinding
 import com.example.handicraft.databinding.FragmentLikesBottomSheetBinding
+import com.example.handicraft.ui.adapters.OnPostClickListener
 import com.example.handicraft_graduation_project_2025.ui.adapters.LikeAdapter
-import com.example.handicraft_graduation_project_2025.ui.adapters.PostAdapter
+import com.example.handicraft.ui.adapters.PostAdapter
 import com.example.handicraft_graduation_project_2025.ui.viewmodels.HomeViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -40,7 +41,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 import java.util.*
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment() ,OnPostClickListener{
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private val viewModel: HomeViewModel by viewModels()
@@ -92,17 +93,7 @@ class HomeFragment : Fragment() {
         }
 
         // Setup Post Adapter
-        postAdapter = PostAdapter(
-            onCommentClick = { post: Post ->
-                CommentBottomSheet(post.postId).show(childFragmentManager, "CommentBottomSheet")
-            },
-            onLikeClick = { post: Post, isLiked: Boolean ->
-                viewModel.toggleLike(post, isLiked)
-            },
-            onLikesCountClick = { post: Post ->
-                LikesBottomSheet(post.postId).show(childFragmentManager, "LikesBottomSheet")
-            }
-        )
+        postAdapter = PostAdapter(emptyList(), emptyMap(),this)
 
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
@@ -134,8 +125,8 @@ class HomeFragment : Fragment() {
         binding.bannerViewPager.adapter = BannerAdapter()
         handler.postDelayed(autoScrollRunnable, 3000)
 
-        viewModel.posts.observe(viewLifecycleOwner) { posts ->
-            postAdapter.submitList(posts)
+        viewModel.posts.observe(viewLifecycleOwner) {
+
         }
 
         // Search functionality
@@ -249,6 +240,18 @@ class HomeFragment : Fragment() {
         super.onDestroyView()
         handler.removeCallbacks(autoScrollRunnable)
         _binding = null
+    }
+
+    override fun onCommentClick(position: Int, postId: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onLikeClick(position: Int, postId: String, isLiked: Boolean) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onLikesCountClick(position: Int, postId: String) {
+        TODO("Not yet implemented")
     }
 }
 

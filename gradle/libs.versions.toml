@@ -20,6 +20,7 @@ constraintlayout = "2.2.1"
 navigationFragmentKtx = "2.9.0"
 okhttp = "4.12.0"
 okio = "3.6.0"
+roomExternalAntlr = "2.7.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -47,6 +48,7 @@ androidx-activity = { group = "androidx.activity", name = "activity", version.re
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
+androidx-room-external-antlr = { group = "androidx.room", name = "room-external-antlr", version.ref = "roomExternalAntlr" }
 
 
 [plugins]
@@ -56,4 +58,5 @@ kotlin-jvm          = { id = "org.jetbrains.kotlin.jvm", version = "2.1.21" }
 kotlin-android      = { id = "org.jetbrains.kotlin.android", version = "2.1.21" }
 navigation-safeargs = { id = "androidx.navigation.safeargs.kotlin", version = "2.9.0" }
 google-services     = { id = "com.google.gms.google-services", version = "4.4.2" }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version = "2.0.0-RC2" }
 
