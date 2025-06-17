@@ -13,6 +13,7 @@ import com.example.handicraft.databinding.FragmentChatsBinding
 import com.example.handicraft.ui.adapters.ChatsAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.firebase.database.ValueEventListener
 
 class ChatsFragment : Fragment() {
     private var _binding: FragmentChatsBinding? = null
