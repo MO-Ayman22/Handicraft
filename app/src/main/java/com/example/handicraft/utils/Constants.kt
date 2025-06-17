@@ -15,4 +15,7 @@ object Constants {
     const val POSTS_KEY = "posts"
     const val PRODUCTS_KEY = "products"
     const val USER_KEY: String = "user"
+    const val USER_CURRENT: String = "current user"
+    const val USER_TARGET: String = "target user"
+
 }
