@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.handicraft.data.models.Chat
 import com.example.handicraft.databinding.FragmentChatsBinding
@@ -58,8 +57,8 @@ class ChatsFragment : Fragment() {
                         if (users.isNotEmpty()) {
                             chats.add(Chat(
                                 id = chatSnapshot.key!!,
-                                userId = currentUserId,
-                                otherUserId = users[0],
+                                currentUserId = currentUserId,
+                                targetUserId = users[0],
                                 lastMessage = lastMessage,
                                 timestamp = timestamp,
                                 unreadCount = unreadCount,
