@@ -14,11 +14,10 @@ import com.example.handicraft.R
 import com.example.handicraft.data.models.Post
 import com.example.handicraft.data.models.User
 import com.example.handicraft.databinding.FragmentProfileBinding
-import com.example.handicraft.fragments.CommentBottomSheet
-import com.example.handicraft.fragments.LikesBottomSheet
 import com.example.handicraft.ui.adapters.OnProfilePostClickListener
 import com.example.handicraft.ui.adapters.ProfilePostAdapter
-
+import com.example.handicraft.ui.fragments.CommentBottomSheet
+import com.example.handicraft.ui.fragments.LikesBottomSheet
 import com.example.handicraft.ui.profile_feature.adapters.OnProfileProductClickListener
 import com.example.handicraft_graduation_project_2025.data.models.Product
 import com.example.handicraft.ui.profile_feature.adapters.ProfileProductAdapter

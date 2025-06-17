@@ -16,7 +16,7 @@ object SharedPrefUtil {
     }
 
     fun getUid(context: Context): String? {
-        return getPreferences(context).getString(KEY_UID,null)
+        return getPreferences(context).getString(KEY_UID,"temp123")
     }
 
     fun clearUid(context: Context) {

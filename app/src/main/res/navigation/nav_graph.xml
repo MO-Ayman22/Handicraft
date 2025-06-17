@@ -134,7 +134,7 @@
 
         <fragment
             android:id="@+id/chatsFragment"
-            android:name="com.example.handicraft.fragments.ChatsFragment"
+            android:name="com.example.handicraft.ui.fragments.ChatsFragment"
             android:label="ChatsFragment" />
 
         <fragment
