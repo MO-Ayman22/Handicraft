@@ -7,10 +7,10 @@
     android:layout_height="wrap_content"
     app:cardCornerRadius="12dp"
     android:layout_margin="8dp"
-    android:background="@color/background_white"
+    android:background="@color/item_background"
     >
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:background="@color/background_white"
+        android:background="@color/item_background"
         android:layout_width="match_parent"
         android:padding="10dp"
         android:layout_height="wrap_content">

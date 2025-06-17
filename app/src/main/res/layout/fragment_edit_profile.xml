@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_white"
+    android:background="@color/custom_background_color"
     android:elevation="0dp"
     android:paddingHorizontal="16dp"
     >
@@ -29,7 +29,7 @@
                 style="@style/titleTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Edit Account"
+                android:text="@string/edit_account"
                 android:textColor="@color/text_primary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="8dp"
-                android:hint="First Name"
+                android:hint="@string/first_name"
                 app:layout_constraintEnd_toStartOf="@id/last_name"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/profile_image"
@@ -92,7 +92,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:hint="Last Name"
+                android:hint="@string/last_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/first_name"
                 app:layout_constraintTop_toBottomOf="@+id/profile_image">
@@ -109,7 +109,7 @@
                 style="@style/CustomEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="User Name"
+                android:hint="@string/username"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/first_name"
@@ -127,7 +127,7 @@
                 style="@style/CustomEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="User Email"
+                android:hint="@string/user_email"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/user_name"
@@ -144,7 +144,7 @@
                 style="@style/CustomEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Phone Number"
+                android:hint="@string/phone_number"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/email"
@@ -162,7 +162,7 @@
                 style="@style/CustomEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Address"
+                android:hint="@string/address"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/phone_number"
@@ -180,18 +180,18 @@
                 style="@style/CustomAutoEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Gender"
+                android:hint="@string/gender"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:drawSelectorOnTop="true"
-                app:boxBackgroundColor="@color/background_white"
+                app:boxBackgroundColor="@color/custom_background_color"
                 app:layout_constraintTop_toBottomOf="@+id/address">
 
                 <AutoCompleteTextView
                     android:id="@+id/ed_gender"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:popupBackground="@color/background_white"
+                    android:popupBackground="@color/custom_background_color"
                     android:inputType="none"
                     android:textColor="@color/text_primary" />
 
@@ -202,7 +202,7 @@
                 style="@style/CustomEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Birth Date"
+                android:hint="@string/birth_date"
                 app:endIconMode="custom"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -232,7 +232,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/save_but"
             style="@style/CustomButton"
             android:layout_width="0dp"
@@ -240,16 +240,18 @@
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
             android:padding="16dp"
-            android:text="Save Settings" />
+            android:textColor="@color/button_text_color"
+            android:text="@string/save_settings" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/cancel_but"
             style="@style/CustomButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="16dp"
-            android:text="Cancel" />
+            android:textColor="@color/button_text_color"
+            android:text="@string/cancel" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

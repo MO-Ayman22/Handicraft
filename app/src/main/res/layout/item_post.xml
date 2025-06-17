@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/background_white"
+    android:background="@color/item_background"
     android:layout_height="wrap_content"
     android:layout_margin="30dp">
 
@@ -20,7 +20,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:text="Mohamed Ayman"
         android:textColor="@color/text_primary"
         app:layout_constraintStart_toEndOf="@id/img_user"
         app:layout_constraintBottom_toBottomOf="@+id/img_user"
@@ -53,10 +52,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:background="@color/background_white"
+        android:background="@color/item_background"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/tv_username"
+        app:layout_constraintStart_toStartOf="@id/img_user"
         app:layout_constraintBottom_toTopOf="@id/like_icon"
         app:layout_constraintTop_toBottomOf="@id/img_user">
 
@@ -65,7 +64,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingVertical="8dp"
-            android:text="Where can I get these exact beads(same size and quality) with delivery to Sohag or surrounding areas?"
             android:textColor="@color/text_primary" />
 
         <GridLayout
@@ -92,6 +90,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingHorizontal="4dp"
+        android:textColor="@color/text_primary"
         app:layout_constraintTop_toTopOf="@id/like_icon"
         app:layout_constraintBottom_toBottomOf="@id/like_icon"
         app:layout_constraintStart_toEndOf="@id/like_icon"
@@ -110,6 +109,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingHorizontal="4dp"
+        android:textColor="@color/text_primary"
         app:layout_constraintTop_toTopOf="@id/comment_icon"
         app:layout_constraintBottom_toBottomOf="@id/comment_icon"
         app:layout_constraintEnd_toStartOf="@id/comment_icon"

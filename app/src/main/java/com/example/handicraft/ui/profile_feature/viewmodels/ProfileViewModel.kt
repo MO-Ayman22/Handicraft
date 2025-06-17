@@ -4,11 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.handicraft.data.models.Post
 import com.example.handicraft.data.models.User
+import com.example.handicraft.data.repository.PostRepository
 import com.example.handicraft.data.repository.ProductRepository
 import com.example.handicraft.data.repository.UserRepository
+import com.example.handicraft_graduation_project_2025.data.models.Like
 import com.example.handicraft_graduation_project_2025.data.models.Product
-import com.example.handicraft_graduation_project_2025.utils.Resource
+import com.example.handicraft.utils.Resource
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
@@ -16,6 +19,11 @@ import kotlinx.coroutines.launch
 class ProfileViewModel : ViewModel() {
 
     private val productRepository = ProductRepository()
+    private val postRepository = PostRepository(FirebaseFirestore.getInstance())
+
+    private val _userPosts = MutableLiveData<List<Post>>()
+    val userPosts: LiveData<List<Post>> = _userPosts
+
     private val userRepository =
         UserRepository(FirebaseFirestore.getInstance(), FirebaseAuth.getInstance())
 
@@ -31,7 +39,16 @@ class ProfileViewModel : ViewModel() {
     private val _favoriteActionStatus = MutableLiveData<Resource<Unit>>()
     val favoriteActionStatus: LiveData<Resource<Unit>> get() = _favoriteActionStatus
 
-
+    fun toggleLike(postId: String, isLiked: Boolean) {
+        viewModelScope.launch {
+            val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return@launch
+            if (isLiked) {
+                postRepository.removeLike(postId, userId)
+            } else {
+                postRepository.addLike(postId, Like(userId = userId))
+            }
+        }
+    }
     fun addToFavorites(userId: String, productId: String) {
         viewModelScope.launch {
             _favoriteActionStatus.postValue(Resource.Loading)
@@ -44,6 +61,12 @@ class ProfileViewModel : ViewModel() {
         }
     }
 
+    fun fetchPostsByUser(userId: String) {
+        viewModelScope.launch {
+            val posts = postRepository.getPostsByUser(userId)
+            _userPosts.postValue(posts)
+        }
+    }
     // ---------------- Remove product from favorites ----------------
     fun removeFromFavorites(userId: String, productId: String) {
         viewModelScope.launch {

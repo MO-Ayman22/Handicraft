@@ -4,13 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/background_white"
+    android:background="@color/custom_background_color"
     android:layout_height="match_parent">
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
-        android:background="@color/background_white"
+        android:background="@color/custom_background_color"
         app:layout_constraintTop_toTopOf="parent"
 
         app:layout_constraintStart_toStartOf="parent"
@@ -49,7 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:background="@color/background_white"
+                android:background="@color/custom_background_color"
                 android:layout_marginTop="8dp"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="2dp"
@@ -58,7 +58,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/background_white"
+                    android:background="@color/custom_background_color"
                     android:padding="12dp">
 
                     <de.hdodenhof.circleimageview.CircleImageView
@@ -105,7 +105,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:background="@color/background_white"
+                android:background="@color/custom_background_color"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -115,14 +115,14 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/background_white"
+                    android:background="@color/custom_background_color"
                     android:padding="16dp">
                     <TextView
                         android:id="@+id/descriptionLabel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-medium"
-                        android:text="Description:"
+                        android:text="@string/description_"
 
                         android:textColor="@color/text_primary"
                         android:textSize="14sp"
@@ -145,7 +145,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-medium"
-                        android:text="Category:"
+                        android:text="@string/category_"
                         android:layout_marginTop="8dp"
                         android:textColor="@color/text_primary"
                         android:textSize="14sp"
@@ -172,7 +172,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:fontFamily="sans-serif-medium"
-                        android:text="Material:"
+                        android:text="@string/material_"
                         android:textColor="@color/text_primary"
                         android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="parent"
@@ -196,7 +196,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:fontFamily="sans-serif-medium"
-                        android:text="Price:"
+                        android:text="@string/price_"
                         android:textColor="@color/text_primary"
                         android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="parent"
@@ -263,11 +263,11 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:textSize="18sp"
+                            android:textSize="16sp"
                             android:background="@drawable/size_available"
                             android:fontFamily="sans-serif"
                             android:gravity="center"
-                            android:padding="12dp"
+                            android:padding="8dp"
                             android:text="@string/small"
                             android:textColor="@color/text_white" />
 
@@ -277,11 +277,11 @@
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="8dp"
                             android:layout_weight="1"
-                            android:textSize="18sp"
+                            android:textSize="16sp"
                             android:background="@drawable/size_available"
                             android:fontFamily="sans-serif"
                             android:gravity="center"
-                            android:padding="12dp"
+                            android:padding="8dp"
                             android:text="@string/medium"
                             android:textColor="@color/text_white" />
 
@@ -294,8 +294,8 @@
                             android:button="@null"
                             android:fontFamily="sans-serif"
                             android:gravity="center"
-                            android:padding="12dp"
-                            android:textSize="18sp"
+                            android:padding="8dp"
+                            android:textSize="16sp"
                             android:text="@string/large"
                             android:textColor="@color/text_white" />
                     </LinearLayout>
@@ -304,15 +304,15 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/contactButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/CustomButton"
-                android:text="Contact Artisan"
+                android:text="@string/contact_artisan"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="16dp"
-                android:textColor="@color/text_white"
+                android:textColor="@color/button_text_color"
                 android:layout_marginBottom="4dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -82,13 +82,13 @@ class HomeViewModel : ViewModel() {
         loadPosts()
     }
 
-    fun toggleLike(post: Post, isLiked: Boolean) {
+    fun toggleLike(postId: String, isLiked: Boolean) {
         viewModelScope.launch {
             val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return@launch
             if (isLiked) {
-                postRepository.removeLike(post.postId, userId)
+                postRepository.removeLike(postId, userId)
             } else {
-                postRepository.addLike(post.postId, Like(userId = userId))
+                postRepository.addLike(postId, Like(userId = userId))
             }
             // Refresh posts to update UI
             loadPosts()

@@ -2,13 +2,12 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/splashFragment">
+    app:startDestination="@id/profileFragment2">
 
         <fragment
             android:id="@+id/splashFragment"
             android:name="com.example.handicraft_graduation_project_2025.ui.fragments.SplashFragment"
             android:label="SplashFragment">
-
             <action
                 android:id="@+id/action_splashFragment_to_onboardingFragment"
                 app:destination="@id/onboardingFragment" />
@@ -140,7 +139,23 @@
 
         <fragment
             android:id="@+id/notificationsFragment"
-            android:name="com.example.handicraft_graduation_project_2025.ui.fragments.NotificationsFragment"
+            android:name="com.example.handicraft.ui.fragments.NotificationFragment"
             android:label="NotificationsFragment" />
+    <fragment
+        android:id="@+id/addProductFragment"
+        android:name="com.example.handicraft.ui.product_feature.fragments.AddProductFragment"
+        android:label="AddProductFragment" />
+    <fragment
+        android:id="@+id/userProfileFragment"
+        android:name="com.example.handicraft.ui.profile_feature.fragments.UserProfileFragment"
+        android:label="UserProfileFragment" />
+    <fragment
+        android:id="@+id/homeFragment2"
+        android:name="com.example.handicraft.fragments.HomeFragment"
+        android:label="HomeFragment" />
+    <fragment
+        android:id="@+id/profileFragment2"
+        android:name="com.example.handicraft.ui.profile_feature.fragments.ProfileFragment"
+        android:label="ProfileFragment" />
 
-    </navigation>
+</navigation>

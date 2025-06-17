@@ -70,7 +70,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:padding="4dp"
-                    android:text="Your favorites list"
+                    android:text="@string/your_favorites_list"
                     android:fontFamily="@font/inter_bold"
                     android:textSize="18sp"
                     android:textColor="@color/text_primary"
@@ -81,7 +81,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Save products here so you \n can return to them later"
+                    android:text="@string/save_products_here_so_you_n_can_return_to_them_later"
                     android:textColor="@color/text_primary"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="@+id/textView5"
@@ -102,7 +102,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <!-- الزرين جنب بعض -->
                     <LinearLayout
                         android:id="@+id/layoutSortButtons"
                         android:layout_width="wrap_content"
@@ -113,7 +112,6 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
-                        <!-- زر الجريد -->
                         <FrameLayout
                             android:id="@+id/btnGrid"
                             android:layout_width="40dp"
@@ -127,7 +125,7 @@
                                 android:contentDescription="Grid View"
                                 android:padding="8dp"
                                 android:src="@drawable/ic_grid"
-                                app:tint="@color/background_white" />
+                                app:tint="@color/custom_background_color" />
                         </FrameLayout>
 
                         <!-- زر الليست -->
@@ -151,7 +149,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Sort by"
+                        android:text="@string/sort_by"
                         android:textColor="@color/text_primary"
                         android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"

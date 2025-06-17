@@ -1,4 +1,4 @@
-package com.example.handicraft.fragments
+package com.example.handicraft.ui.fragments
 
 
 import android.os.Bundle

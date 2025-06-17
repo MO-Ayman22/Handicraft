@@ -81,7 +81,7 @@ class HomeFragment : Fragment() ,OnPostClickListener{
         }
 
         // Setup Post Adapter
-        postAdapter = PostAdapter(emptyList(), emptyMap(),this)
+        postAdapter = PostAdapter(emptyList(), this)
 
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
@@ -230,15 +230,15 @@ class HomeFragment : Fragment() ,OnPostClickListener{
     }
 
     override fun onCommentClick(position: Int, postId: String) {
-        TODO("Not yet implemented")
+        CommentBottomSheet(postId).show(childFragmentManager, "CommentBottomSheet")
     }
 
     override fun onLikeClick(position: Int, postId: String, isLiked: Boolean) {
-        TODO("Not yet implemented")
+        viewModel.toggleLike(postId, isLiked)
     }
 
     override fun onLikesCountClick(position: Int, postId: String) {
-        TODO("Not yet implemented")
+        LikesBottomSheet(postId).show(childFragmentManager, "LikesBottomSheet")
     }
 }
 

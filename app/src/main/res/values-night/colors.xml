@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="text_primary">#FCFCFC</color>
+    <color name="text_secondary">#E5E3E8</color>
+    <color name="custom_background_color">#1C1C26</color>
+    <color name="edit_text_background">#423B4E</color>
+    <color name="item_background">#423B4E</color>
+    <color name="edit_text_drawables_tint">#E5E3E8</color>
+    <color name="chip_bg_hover">#5B5267</color>
+    <color name="chip_bg_checked">#9D80C6</color>
+    <color name="chip_bg_unchecked">#423B4E</color>
+</resources>

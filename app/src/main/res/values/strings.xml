@@ -162,6 +162,22 @@
     <string name="get_started">Get started</string>
     <string name="profile_update_failed">Profile updated failed</string>
     <string name="confirm">Confirm</string>
+    <string name="you_have_no_posts_yet">You have no posts yet\n</string>
+    <string name="save_settings">Save Settings</string>
+    <string name="birth_date">Birth Date</string>
+    <string name="gender">Gender</string>
+    <string name="address">Address</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="user_email">User Email</string>
+    <string name="sort_by">Sort by</string>
+    <string name="your_favorites_list">Your favorites list</string>
+    <string name="save_products_here_so_you_n_can_return_to_them_later">Save products here so you \n can return to them later</string>
+    <string name="description_">Description:</string>
+    <string name="category_">Category:</string>
+    <string name="material_">Material:</string>
+    <string name="price_">Price:</string>
+    <string name="contact_artisan">Contact Artisan</string>
+    <string name="edit_profile">Edit Profile</string>
 
     <array name="materials">
         <item>@string/wood</item>

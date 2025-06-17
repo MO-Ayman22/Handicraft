@@ -31,13 +31,35 @@
         <fragment
             android:id="@+id/profileFragment"
             android:name="com.example.handicraft.ui.profile_feature.fragments.ProfileFragment"
-            android:label="ProfileFragment" />
+            android:label="ProfileFragment" >
+            <action
+                android:id="@+id/action_profileFragment_to_editProfileFragment"
+                app:destination="@id/editProfileFragment" />
+            <action
+                android:id="@+id/action_profileFragment_to_followingFragment"
+                app:destination="@id/followingFragment" />
+            <action
+                android:id="@+id/action_profileFragment_to_followersFragment"
+                app:destination="@id/followersFragment" />
+        </fragment>
 
         <fragment
             android:id="@+id/productsFragment"
             android:name="com.example.handicraft.ui.product_feature.fragments.ProductsFragment"
-            android:label="ProductsFragment" />
-
+            android:label="ProductsFragment" >
+            <action
+                android:id="@+id/action_productsFragment_to_profileFragment"
+                app:destination="@id/profileFragment" />
+            <action
+                android:id="@+id/action_productsFragment_to_productDetailsFragment"
+                app:destination="@id/productDetailsFragment" />
+            <action
+                android:id="@+id/action_productsFragment_to_categoryFragment"
+                app:destination="@id/categoryFragment" />
+            <action
+                android:id="@+id/action_productsFragment_to_userProfileFragment2"
+                app:destination="@id/userProfileFragment2" />
+        </fragment>
         <fragment
             android:id="@+id/aiServicesFragment"
             android:name="com.example.handicraft.fragments.AIServicesFragment"
@@ -53,7 +75,7 @@
 
     <fragment
         android:id="@+id/notificationsFragment"
-        android:name="com.example.handicraft.fragments.NotificationFragment"
+        android:name="com.example.handicraft.ui.fragments.NotificationFragment"
         android:label="NotificationsFragment" >
         <action
             android:id="@+id/action_notificationsFragment_to_homeFragment"
@@ -67,6 +89,83 @@
         android:id="@+id/signInFragment2"
         android:name="com.example.handicraft.fragments.SignInFragment"
         android:label="SignInFragment" />
+    <fragment
+        android:id="@+id/followersFragment"
+        android:name="com.example.handicraft.ui.profile_feature.fragments.FollowersFragment"
+        android:label="FollowersFragment" >
+
+        <action
+            android:id="@+id/action_followersFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_followersFragment_to_userProfileFragment2"
+            app:destination="@id/userProfileFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/followingFragment"
+        android:name="com.example.handicraft.ui.profile_feature.fragments.FollowingFragment"
+        android:label="FollowingFragment" >
+        <action
+            android:id="@+id/action_followingFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_followingFragment_to_userProfileFragment2"
+            app:destination="@id/userProfileFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.example.handicraft.ui.profile_feature.fragments.EditProfileFragment"
+        android:label="EditProfileFragment" >
+        <action
+            android:id="@+id/action_editProfileFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userProfileFragment2"
+        android:name="com.example.handicraft.ui.profile_feature.fragments.UserProfileFragment"
+        android:label="UserProfileFragment" >
+        <action
+            android:id="@+id/action_userProfileFragment2_to_followersFragment"
+            app:destination="@id/followersFragment" />
+        <action
+            android:id="@+id/action_userProfileFragment2_to_followingFragment"
+            app:destination="@id/followingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productDetailsFragment"
+        android:name="com.example.handicraft.ui.product_feature.fragments.ProductDetailsFragment"
+        android:label="ProductDetailsFragment" />
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="com.example.handicraft_graduation_project_2025.ui.product_feature.fragments.CategoryFragment"
+        android:label="CategoryFragment" >
+        <action
+            android:id="@+id/action_categoryFragment_to_productsFragment"
+            app:destination="@id/productsFragment" />
+        <action
+            android:id="@+id/action_categoryFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
+        <action
+            android:id="@+id/action_categoryFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_categoryFragment_to_userProfileFragment2"
+            app:destination="@id/userProfileFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/favouritesFragment"
+        android:name="com.example.handicraft.ui.product_feature.fragments.FavouritesFragment"
+        android:label="FavouritesFragment" >
+        <action
+            android:id="@+id/action_favouritesFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_favouritesFragment_to_userProfileFragment2"
+            app:destination="@id/userProfileFragment2" />
+        <action
+            android:id="@+id/action_favouritesFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
+    </fragment>
 
 </navigation>
 

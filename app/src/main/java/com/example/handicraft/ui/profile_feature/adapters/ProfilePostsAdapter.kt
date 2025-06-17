@@ -1,11 +1,11 @@
-package com.example.handicraft.ui.profile_feature.adapters
+package com.example.handicraft.ui.adapters
 
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.GridLayout
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -15,9 +15,9 @@ import com.example.handicraft.data.models.User
 import com.example.handicraft.databinding.ItemImagePostBinding
 import com.example.handicraft.databinding.ItemPostBinding
 
+
 class ProfilePostAdapter(
-    private val posts: List<Post>,
-    private val usersMap: Map<String, User>,
+    private var postsList: List<UiPost>,
     private val listener: OnProfilePostClickListener
 ) : RecyclerView.Adapter<ProfilePostAdapter.PostViewHolder>() {
 
@@ -27,15 +27,17 @@ class ProfilePostAdapter(
         return PostViewHolder(binding)
     }
 
-    override fun getItemCount() = posts.size
+    override fun getItemCount() = postsList.size
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-        holder.bind(posts[position], usersMap[posts[position].userId]!!)
+        val (post, user, isLiked) = postsList[position]
+
+        holder.bind(post, user, isLiked)
     }
 
     inner class PostViewHolder(private val binding: ItemPostBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(post: Post, user: User) {
+        fun bind(post: Post, user: User, isLiked: Boolean) {
             binding.apply {
                 tvUsername.text = user.username
                 tvContent.text = post.content
@@ -45,57 +47,24 @@ class ProfilePostAdapter(
                     .into(imgUser)
                 likesCount.text = post.likesCount.toString()
                 commentsCount.text = post.commentsCount.toString()
-                if (post.isLiked)
+                if (isLiked)
                     binding.likeIcon.setImageResource(R.drawable.ic_like_active)
                 else
                     binding.likeIcon.setImageResource(R.drawable.ic_like)
-
             }
             displayImages(post.imageUrls)
-            /*binding.iconOptions.setOnClickListener { view ->
-                val popup = PopupMenu(view.context, view, Gravity.NO_GRAVITY, 0, R.style.PopupMenuStyle)
-                popup.menuInflater.inflate(R.menu.edit_delete_menu, popup.menu)
+            binding.likeIcon.setOnClickListener {
+                listener.onLikeClick(adapterPosition, post.postId, !isLiked)
+                postsList[adapterPosition].isLiked = !isLiked
+                notifyItemChanged(adapterPosition)
 
-                // Force show icons in the popup menu
-                try {
-                    val fieldMPopup = PopupMenu::class.java.getDeclaredField("mPopup")
-                    fieldMPopup.isAccessible = true
-                    val mPopup = fieldMPopup.get(popup)
-                    mPopup.javaClass.getDeclaredMethod("setForceShowIcon", Boolean::class.java)
-                        .invoke(mPopup, true)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-
-                // Set text color for each menu item
-                for (i in 0 until popup.menu.size()) {
-                    val menuItem = popup.menu.getItem(i)
-                    val span = SpannableString(menuItem.title)
-                    val editColor = ContextCompat.getColor(view.context, R.color.text_primary)
-                    val deleteColor = ContextCompat.getColor(view.context, R.color.text_delete)
-                    when (menuItem.itemId) {
-                        R.id.menu_edit -> span.setSpan(ForegroundColorSpan(editColor), 0, span.length, 0)
-                        R.id.menu_delete -> span.setSpan(ForegroundColorSpan(deleteColor), 0, span.length, 0)
-                    }
-                    menuItem.title = span
-                }
-
-                popup.setOnMenuItemClickListener { item ->
-                    when (item.itemId) {
-                        R.id.menu_edit -> {
-                            listener.onEditPost(postId)
-                            true
-                        }
-                        R.id.menu_delete -> {
-                            listener.onDeletePost(postId)
-                            true
-                        }
-                        else -> false
-                    }
-                }
-
-                popup.show()
-            }*/
+            }
+            binding.likesCount.setOnClickListener {
+                listener.onLikesCountClick(adapterPosition, post.postId)
+            }
+            binding.commentsCount.setOnClickListener {
+                listener.onCommentClick(adapterPosition, post.postId)
+            }
         }
 
         private fun displayImages(imageUris: List<String>) {
@@ -147,18 +116,25 @@ class ProfilePostAdapter(
         }
     }
 
-    class PostDiffCallback : DiffUtil.ItemCallback<Post>() {
-        override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
-            return oldItem.postId == newItem.postId
+    fun updatePosts(posts: List<Post>, usersMap: Map<String, User>, currentUserId: String) {
+        val newList = posts.map { post ->
+            usersMap[post.userId]?.let {
+                UiPost(
+                    post = post,
+                    user = it,
+                    isLiked = post.likes.contains(currentUserId)
+                )
+            }
         }
-
-        override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean {
-            return oldItem == newItem
+        newList.let {
+            postsList = it.filterNotNull()
+            Log.d("Up", "$it" )
+            notifyDataSetChanged()
         }
     }
 }
-interface OnProfilePostClickListener{
-    fun onCommentClick (position: Int,postId:String)
-    fun onLikeClick(position: Int,postId: String,isLiked:Boolean)
-    fun onLikesCountClick(position: Int,postId: String)
+interface OnProfilePostClickListener {
+    fun onCommentClick(position: Int, postId: String)
+    fun onLikeClick(position: Int, postId: String, isLiked: Boolean)
+    fun onLikesCountClick(position: Int, postId: String)
 }

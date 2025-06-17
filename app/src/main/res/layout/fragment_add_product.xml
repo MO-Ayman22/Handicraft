@@ -33,7 +33,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/screen_label"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/screen_label"
-        app:tint="@color/background_white" />
+        app:tint="@color/custom_background_color" />
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -92,7 +92,7 @@
             android:src="@drawable/ic_add_photo"
             app:layout_constraintBottom_toBottomOf="@id/cardViewImage"
             app:layout_constraintEnd_toEndOf="parent"
-            app:tint="@color/background_white" />
+            app:tint="@color/custom_background_color" />
 
         <!-- Product Title -->
         <com.google.android.material.textfield.TextInputLayout
@@ -213,7 +213,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:hint="@string/material_type"
-            app:boxBackgroundColor="@color/background_white"
+            app:boxBackgroundColor="@color/custom_background_color"
             app:layout_constraintTop_toBottomOf="@id/chipGroupSizes">
 
             <AutoCompleteTextView
@@ -222,7 +222,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_primary"
                 android:textColorHint="@color/text_secondary"
-                android:popupBackground="@color/background_white"
+                android:popupBackground="@color/custom_background_color"
                 android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
@@ -232,7 +232,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:hint="@string/product_category"
-            app:boxBackgroundColor="@color/background_white"
+            app:boxBackgroundColor="@color/custom_background_color"
             app:layout_constraintTop_toBottomOf="@id/tilMaterialType">
 
             <AutoCompleteTextView
@@ -241,7 +241,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_primary"
                 android:textColorHint="@color/text_secondary"
-                android:popupBackground="@color/background_white"
+                android:popupBackground="@color/custom_background_color"
                 android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
 
