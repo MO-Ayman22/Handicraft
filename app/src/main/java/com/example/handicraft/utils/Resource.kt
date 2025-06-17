@@ -1,4 +1,4 @@
-package com.example.handicraft_graduation_project_2025.utils
+package com.example.handicraft.utils
 
 sealed class Resource<out T> {
     data class Success<T>(val data: T) : Resource<T>()

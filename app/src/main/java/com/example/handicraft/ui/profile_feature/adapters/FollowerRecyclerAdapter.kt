@@ -50,7 +50,7 @@ class FollowerRecyclerAdapter(
                 binding.followBut.text = context.getString(R.string.follow)
                 binding.followBut.background =
                     AppCompatResources.getDrawable(context, R.drawable.follow_but_style)
-                binding.followBut.setTextColor(context.getColor(R.color.background_white))
+                binding.followBut.setTextColor(context.getColor(R.color.custom_background_color))
             }
 
             binding.followBut.setOnClickListener {

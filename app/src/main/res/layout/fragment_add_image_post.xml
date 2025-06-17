@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:background="@color/background_white"
+            android:background="@color/item_background"
             android:padding="16dp">
             <ProgressBar
                 android:id="@+id/progressBar"
@@ -161,13 +161,13 @@
                         android:scaleType="centerCrop" />
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/publishButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/CustomButton"
             android:text="Post"
-            android:textColor="@color/background_white"
+            android:textColor="@color/button_text_color"
             android:layout_marginBottom="4dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>

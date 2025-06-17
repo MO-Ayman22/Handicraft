@@ -3,8 +3,10 @@ package com.example.handicraft.data.repository
 
 
 import com.example.handicraft.data.models.Post
+import com.example.handicraft.utils.Resource
 import com.example.handicraft_graduation_project_2025.data.models.Comment
 import com.example.handicraft_graduation_project_2025.data.models.Like
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.Dispatchers
@@ -90,5 +92,32 @@ class PostRepository(private val firestore: FirebaseFirestore) {
                 trySend(likes).isSuccess
             }
         awaitClose { subscription.remove() }
+    }
+    suspend fun getPostsByUser(userId: String): List<Post> {
+        return try {
+            val snapshot = firestore.collection("posts")
+                .whereEqualTo("userId", userId)
+                .get()
+                .await()
+
+            snapshot.toObjects(Post::class.java)
+        } catch (e: Exception) {
+            emptyList()
+        }
+    }
+    suspend fun savePost(post: Post,userId: String): Resource<Unit> {
+        return try {
+            val postRef = FirebaseFirestore.getInstance()
+                .collection("posts")
+                .document()
+
+            post.postId = postRef.id // assign auto-generated ID
+            post.userId = userId
+            postRef.set(post).await()
+
+            Resource.Success(Unit)
+        } catch (e: Exception) {
+            Resource.Error(e.message ?: "An unexpected error occurred")
+        }
     }
 }

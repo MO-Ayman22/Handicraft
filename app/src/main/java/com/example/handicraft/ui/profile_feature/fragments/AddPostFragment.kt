@@ -1,4 +1,4 @@
-package com.example.handicraft_graduation_project_2025.ui.profile_feature.fragments
+package com.example.handicraft.ui.profile_feature.fragments
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -7,17 +7,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.handicraft.data.models.Post
+import com.example.handicraft.data.models.User
+import com.example.handicraft.databinding.FragmentAddPostBinding
+import com.example.handicraft.ui.profile_feature.viewmodels.AddPostViewModel
+import com.example.handicraft.utils.Resource
 
 import com.example.handicraft_graduation_project_2025.utils.SharedPrefUtil
 
 class AddPostFragment : DialogFragment() {
-   /* private lateinit var binding: FragmentAddPostBinding
-    private lateinit var userViewModel: UserViewModel
-    private lateinit var postViewModel: PostViewModel
+    private lateinit var binding: FragmentAddPostBinding
+    private lateinit var viewModel: AddPostViewModel
     private lateinit var currentUser: User
 
     override fun onCreateView(
@@ -40,17 +43,40 @@ class AddPostFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
-        postViewModel = ViewModelProvider(this)[PostViewModel::class.java]
-        userViewModel.user.observe(viewLifecycleOwner) { user ->
+        viewModel = ViewModelProvider(this)[AddPostViewModel::class.java]
+        viewModel.user.observe(viewLifecycleOwner) { user ->
             if (user != null) {
                 currentUser = user
             }
         }
-        SharedPrefUtil.getUid(requireContext())?.let { userViewModel.fetchUserById(it) }
+        SharedPrefUtil.getUid(requireContext())?.let { viewModel.fetchUserById(it) }
         setupListeners()
+        observePostState()
     }
-
+    private fun observePostState() {
+        viewModel.savePostStatus.observe(viewLifecycleOwner) { result -> // Use viewLifecycleOwner
+            when (result) {
+                is Resource.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.publishButton.isEnabled = false // Disable button during loading
+                }
+                is Resource.Success -> {
+                    binding.progressBar.visibility = View.GONE
+                    binding.publishButton.isEnabled = true
+                    showToast("Post created successfully!")
+                    dismiss()
+                }
+                is Resource.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                    binding.publishButton.isEnabled = true
+                    showToast("Failed to create post: ${result.message ?: "Unknown error"}") // Provide more detail
+                }
+            }
+        }
+    }
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
     private fun setupListeners() {
         binding.newPostFragmentRoot.setOnClickListener {
             dismiss()
@@ -67,29 +93,15 @@ class AddPostFragment : DialogFragment() {
             }
             val user = currentUser
             val newPost = Post(
-                userId = user.userId,
+                userId = user.uid,
                 content = content,
-                imageUrl = emptyList(),
-                craftType = user.craftType,
+                imageUrls = emptyList()
             )
 
             // 🔄 Show loading
             binding.progressBar.visibility = View.VISIBLE
             binding.publishButton.isEnabled = false
-
-            postViewModel.createPost(newPost) { success, errorMsg ->
-                // ✅ Hide loading
-                binding.progressBar.visibility = View.GONE
-                binding.publishButton.isEnabled = true
-
-                if (success) {
-                    Toast.makeText(requireContext(), "Post published", Toast.LENGTH_SHORT).show()
-                    dismiss()
-                } else {
-                    Toast.makeText(requireContext(), errorMsg ?: "Failed to publish", Toast.LENGTH_SHORT).show()
-                }
-            }
+            viewModel.savePost(newPost, user.uid)
         }
     }
-*/
 }

@@ -15,8 +15,8 @@ import com.example.handicraft.R
 import com.example.handicraft_graduation_project_2025.data.models.Product
 import com.example.handicraft.data.models.User
 import com.example.handicraft.databinding.FragmentUserProfileBinding
-import com.example.handicraft.ui.profile_feature.adapters.OnProfilePostClickListener
-import com.example.handicraft.ui.profile_feature.adapters.ProfilePostAdapter
+import com.example.handicraft.ui.adapters.OnProfilePostClickListener
+import com.example.handicraft.ui.adapters.ProfilePostAdapter
 import com.example.handicraft.ui.profile_feature.adapters.OnProfileProductClickListener
 import com.example.handicraft.ui.profile_feature.adapters.ProfileProductAdapter
 import com.example.handicraft.ui.profile_feature.viewmodels.UserProfileViewModel
@@ -95,7 +95,7 @@ class UserProfileFragment : Fragment(), OnProfileProductClickListener, OnProfile
                 binding.btnFollow.text = requireContext().getString(R.string.follow)
                 binding.btnFollow.background =
                     AppCompatResources.getDrawable(requireContext(), R.drawable.follow_but_style)
-                binding.btnFollow.setTextColor(requireContext().getColor(R.color.background_white))
+                binding.btnFollow.setTextColor(requireContext().getColor(R.color.custom_background_color))
                 binding.tvProfileFollowersCount.text =
                     (binding.tvProfileFollowersCount.text.toString().toInt() - 1).toString()
             } else {
@@ -121,7 +121,7 @@ class UserProfileFragment : Fragment(), OnProfileProductClickListener, OnProfile
                 binding.btnFollow.text = requireContext().getString(R.string.follow)
                 binding.btnFollow.background =
                     AppCompatResources.getDrawable(requireContext(), R.drawable.follow_but_style)
-                binding.btnFollow.setTextColor(requireContext().getColor(R.color.background_white))
+                binding.btnFollow.setTextColor(requireContext().getColor(R.color.custom_background_color))
             }
             tvProfileUserName.text = thisUser.username
             tvProfileUserEmail.text = thisUser.email
@@ -159,7 +159,7 @@ class UserProfileFragment : Fragment(), OnProfileProductClickListener, OnProfile
 
     private fun initPostsRecycler() {
 
-        postsAdapter = ProfilePostAdapter(emptyList(), emptyMap(),this,)
+        postsAdapter = ProfilePostAdapter(emptyList(),this,)
         binding.rvProfilePosts.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = postsAdapter

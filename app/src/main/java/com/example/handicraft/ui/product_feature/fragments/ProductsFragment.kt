@@ -23,7 +23,7 @@ import com.example.handicraft.ui.product_feature.adapters.ProductGridAdapter
 import com.example.handicraft.ui.product_feature.viewmodels.ProductsViewModel
 import com.example.handicraft.utils.Constants
 import com.example.handicraft_graduation_project_2025.ui.product_feature.fragments.CategoryFragment
-import com.example.handicraft_graduation_project_2025.utils.Resource
+import com.example.handicraft.utils.Resource
 import com.example.handicraft_graduation_project_2025.utils.SharedPrefUtil
 import com.google.android.material.chip.Chip
 

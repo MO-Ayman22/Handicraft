@@ -19,7 +19,7 @@ import com.example.handicraft_graduation_project_2025.data.models.Product
 import com.example.handicraft.ui.product_feature.adapters.ProductGridAdapter
 import com.example.handicraft.ui.product_feature.adapters.ProductListAdapter
 import com.example.handicraft.ui.product_feature.viewmodels.FavouriteViewModel
-import com.example.handicraft_graduation_project_2025.utils.Resource
+import com.example.handicraft.utils.Resource
 import com.example.handicraft_graduation_project_2025.utils.SharedPrefUtil
 
 class FavouritesFragment : Fragment(), OnProductClickListener {
@@ -91,7 +91,7 @@ class FavouritesFragment : Fragment(), OnProductClickListener {
 
     private fun setupUICallback() {
         binding.btnGrid.setOnClickListener {
-            val selectedColor = ContextCompat.getColor(requireContext(), R.color.background_white)
+            val selectedColor = ContextCompat.getColor(requireContext(), R.color.custom_background_color)
             val unSelectedColor = ContextCompat.getColor(requireContext(), R.color.purple_500)
             binding.rvGridFavourites.visibility = View.VISIBLE
             binding.rvListFavourites.visibility = View.GONE
@@ -104,7 +104,7 @@ class FavouritesFragment : Fragment(), OnProductClickListener {
             binding.iconList.setColorFilter(unSelectedColor, PorterDuff.Mode.SRC_IN)
         }
         binding.btnList.setOnClickListener {
-            val selectedColor = ContextCompat.getColor(requireContext(), R.color.background_white)
+            val selectedColor = ContextCompat.getColor(requireContext(), R.color.custom_background_color)
             val unSelectedColor = ContextCompat.getColor(requireContext(), R.color.purple_500)
             binding.rvGridFavourites.visibility = View.GONE
             binding.rvListFavourites.visibility = View.VISIBLE

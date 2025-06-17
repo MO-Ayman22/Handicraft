@@ -57,7 +57,7 @@ class UserRepository(
         try {
             val users = mutableListOf<User>()
             userIds.chunked(10).forEach { chunk ->
-                val snapshot = userCollection.whereIn("userId", chunk).get().await()
+                val snapshot = userCollection.whereIn("uid", chunk).get().await()
                 users += snapshot.toObjects(User::class.java)
             }
             Result.success(users)
