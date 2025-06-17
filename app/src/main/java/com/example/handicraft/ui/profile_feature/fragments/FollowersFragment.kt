@@ -100,10 +100,10 @@ class FollowersFragment : Fragment(), OnFollowerItemClickListener {
     }
 
     private fun navigateTo(fragment: Fragment) {
-        /*parentFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, fragment)
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.nav_host_fragment, fragment)
             .addToBackStack(null)
-            .commit()*/
+            .commit()
     }
 
     override fun onDestroyView() {
