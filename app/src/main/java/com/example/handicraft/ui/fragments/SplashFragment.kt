@@ -45,19 +45,19 @@ class SplashFragment : Fragment() {
             )
         )
 
-//        viewLifecycleOwner.lifecycleScope.launch {
-//            delay(2000)
-//            viewModel.checkUserLogin(requireContext())
-//            viewModel.isLoggedIn.observe(viewLifecycleOwner) { isLoggedIn ->
-//                if (isLoggedIn) {
-//                    findNavController().navigate(R.id.action_splashFragment_to_mainFragment)
-//                } else {
-//                    findNavController().navigate(R.id.action_splashFragment_to_onboardingFragment)
-//                }
-//            }
-//        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            delay(2000)
+            viewModel.checkUserLogin(requireContext())
+            viewModel.isLoggedIn.observe(viewLifecycleOwner) { isLoggedIn ->
+                if (isLoggedIn) {
+                    findNavController().navigate(R.id.action_splashFragment_to_mainFragment)
+                } else {
+                    findNavController().navigate(R.id.action_splashFragment_to_onboardingFragment)
+                }
+            }
+        }
 
-        findNavController().navigate(R.id.action_splashFragment_to_onboardingFragment)
+//        findNavController().navigate(R.id.action_splashFragment_to_onboardingFragment)
 
 
 

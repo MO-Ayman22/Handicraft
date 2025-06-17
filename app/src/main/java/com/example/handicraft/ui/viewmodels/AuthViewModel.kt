@@ -42,6 +42,9 @@ class AuthViewModel : ViewModel() {
     val updateResult: LiveData<Result<Unit>?> = _updateResult
     private var tempUser = User()
 
+    private val _user = MutableLiveData<User?>()
+    val user: LiveData<User?> get() = _user
+
     fun signUp(context: Context, email: String, password: String, username: String, userType: String) {
         viewModelScope.launch {
             tempUser = User(username = username, email = email, userType = userType)
@@ -119,9 +122,21 @@ class AuthViewModel : ViewModel() {
         }
     }
 
-    fun updateProfile(context: Context, firstName: String, lastName: String, phone: String, location: String, gender: String, birthdate: String) {
+    fun fetchUserById(userId: String) {
+        viewModelScope.launch {
+            val result = userRepository.getUser(userId)
+            if (result.isSuccess) {
+                _user.postValue(result.getOrNull())
+            } else {
+                _user.postValue(null)
+            }
+        }
+    }
+
+    fun updateProfile(context: Context, uid: String, firstName: String, lastName: String, phone: String, location: String, gender: String, birthdate: String) {
         viewModelScope.launch {
             tempUser = tempUser.copy(
+                uid = uid,
                 firstName = firstName,
                 lastName = lastName,
                 phone = phone,
@@ -129,7 +144,7 @@ class AuthViewModel : ViewModel() {
                 gender = gender,
                 birthdate = birthdate
             )
-            val result = userRepository.saveUser(tempUser)
+            val result = userRepository.updateUser(tempUser)
             if (result.isSuccess) {
                 SharedPrefUtil.saveUid(context, authRepository.getCurrentUserId() ?: "")
             }

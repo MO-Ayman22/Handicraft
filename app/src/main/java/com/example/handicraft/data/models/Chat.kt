@@ -1,4 +1,4 @@
-package com.example.handicraft_graduation_project_2025.data.models
+package com.example.handicraft.data.models
 
 data class Chat(
     val id: String = "",
@@ -6,5 +6,6 @@ data class Chat(
     val otherUserId: String = "",
     val lastMessage: String = "",
     val timestamp: Long = 0L,
-    val unreadCount: Int = 0
+    val unreadCount: Int = 0,
+    val profileImageUrl: String = ""
 )

@@ -12,12 +12,15 @@ import android.widget.ArrayAdapter
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.handicraft.R
 import com.example.handicraft.databinding.FragmentSetYourProfileBinding
+import com.example.handicraft.ui.profile_feature.viewmodels.UserProfileViewModel
 import com.example.handicraft.viewmodels.AuthViewModel
 import com.example.handicraft_graduation_project_2025.utils.CloudinaryManager
+import com.example.handicraft_graduation_project_2025.utils.SharedPrefUtil
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
@@ -32,8 +35,8 @@ import java.util.Locale
 class SetYourProfileFragment : Fragment() {
     private var _binding: FragmentSetYourProfileBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: AuthViewModel by viewModels()
-    private var imageFile: File? = null
+    private lateinit var viewModel: AuthViewModel
+    private lateinit var imageFile: File
     private val dateFormat = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
     private val calendar = Calendar.getInstance()
 
@@ -44,12 +47,7 @@ class SetYourProfileFragment : Fragment() {
                 Glide.with(this).load(uri).into(binding.profileImage)
 
                 // Save image to file
-                imageFile = createTempFile("profile_image", ".jpg")
-                requireContext().contentResolver.openInputStream(uri)?.use { input ->
-                    FileOutputStream(imageFile).use { output ->
-                        input.copyTo(output)
-                    }
-                }
+                imageFile = CloudinaryManager.uriToFile(uri,requireContext())
 
                 // Upload image to Cloudinary
                 uploadImageToCloudinary()
@@ -67,6 +65,7 @@ class SetYourProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel = ViewModelProvider(this)[AuthViewModel::class.java]
 
         // Setup gender spinner
         ArrayAdapter.createFromResource(
@@ -96,6 +95,7 @@ class SetYourProfileFragment : Fragment() {
 
         // Submit button
         binding.submitButton.setOnClickListener {
+            val uid= SharedPrefUtil.getUid(requireContext())!!
             val firstName = binding.firstNameEditText.text.toString().trim()
             val lastName = binding.lastNameEditText.text.toString().trim()
             val phone = binding.phoneEditText.text.toString().trim()
@@ -105,7 +105,7 @@ class SetYourProfileFragment : Fragment() {
 
             if (validateInputs(firstName, lastName, phone, location, birthdate)) {
                 //binding.progressBar.visibility = View.VISIBLE
-                viewModel.updateProfile(requireContext(), firstName, lastName, phone, location, gender, birthdate)
+                viewModel.updateProfile(requireContext(),uid, firstName, lastName, phone, location, gender, birthdate)
             }
         }
 
@@ -162,7 +162,7 @@ class SetYourProfileFragment : Fragment() {
     }
 
     private fun uploadImageToCloudinary() {
-        imageFile?.let { file ->
+        imageFile.let { file ->
             CoroutineScope(Dispatchers.Main).launch {
                 //binding.progressBar.visibility = View.VISIBLE
                 if (!viewModel.isLoggedIn(requireContext())) {

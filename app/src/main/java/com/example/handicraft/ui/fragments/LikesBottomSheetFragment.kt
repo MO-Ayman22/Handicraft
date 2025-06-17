@@ -8,7 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.handicraft.databinding.FragmentLikesBottomSheetBinding
 import com.example.handicraft_graduation_project_2025.ui.adapters.LikeAdapter
-import com.example.handicraft_graduation_project_2025.ui.viewmodels.HomeViewModel
+import com.example.handicraft.ui.viewmodels.HomeViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class LikesBottomSheet(private val postId: String) : BottomSheetDialogFragment() {

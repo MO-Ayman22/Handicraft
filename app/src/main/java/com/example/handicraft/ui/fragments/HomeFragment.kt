@@ -1,4 +1,4 @@
-package com.example.handicraft.fragments
+package com.example.handicraft.ui.fragments
 
 
 import android.content.res.Configuration
@@ -17,15 +17,13 @@ import androidx.appcompat.widget.SwitchCompat
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.handicraft.R
 import com.example.handicraft.adapters.BannerAdapter
 import com.example.handicraft.adapters.CommentAdapter
-import com.example.handicraft.data.models.Post
 import com.example.handicraft.data.repository.UserRepository
 import com.example.handicraft.databinding.FragmentCommentBottomSheetBinding
 import com.example.handicraft.databinding.FragmentHomeBinding
@@ -33,18 +31,17 @@ import com.example.handicraft.databinding.FragmentLikesBottomSheetBinding
 import com.example.handicraft.ui.adapters.OnPostClickListener
 import com.example.handicraft_graduation_project_2025.ui.adapters.LikeAdapter
 import com.example.handicraft.ui.adapters.PostAdapter
-import com.example.handicraft_graduation_project_2025.ui.viewmodels.HomeViewModel
+import com.example.handicraft.ui.viewmodels.HomeViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.launch
 import java.util.*
 
 class HomeFragment : Fragment() ,OnPostClickListener{
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: HomeViewModel by viewModels()
+    private lateinit var viewModel: HomeViewModel
     private lateinit var postAdapter: PostAdapter
     private val userRepository = UserRepository(FirebaseFirestore.getInstance(), FirebaseAuth.getInstance())
     private val handler = Handler(Looper.getMainLooper())
@@ -68,20 +65,11 @@ class HomeFragment : Fragment() ,OnPostClickListener{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        viewModel= ViewModelProvider(this)[HomeViewModel::class.java]
         // Load user data in nav header
         val headerView = binding.navigationView.getHeaderView(0)
         val navProfileImage = headerView.findViewById<ImageView>(R.id.nav_profile_image)
         val navUserName = headerView.findViewById<TextView>(R.id.nav_user_name)
-        lifecycleScope.launch {
-            userRepository.getUser(FirebaseAuth.getInstance().currentUser?.uid ?: "").onSuccess { user ->
-                navUserName.text = user.username ?: user.email
-                Glide.with(navProfileImage)
-                    .load(user.profileImageUrl)
-                    .placeholder(R.drawable.ic_user)
-                    .into(navProfileImage)
-            }
-        }
 
         // Toggle drawer with profile image
         binding.profileImage.setOnClickListener {
@@ -225,7 +213,6 @@ class HomeFragment : Fragment() ,OnPostClickListener{
             .setNegativeButton(R.string.cancel, null)
             .show()
     }
-
     override fun onPause() {
         super.onPause()
         handler.removeCallbacks(autoScrollRunnable)
