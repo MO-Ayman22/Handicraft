@@ -1,10 +1,10 @@
 package com.example.handicraft.fragments
 
-
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,13 +12,17 @@ import android.widget.ArrayAdapter
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.handicraft.R
 import com.example.handicraft.databinding.FragmentSetYourProfileBinding
+import com.example.handicraft.ui.profile_feature.viewmodels.UserProfileViewModel
 import com.example.handicraft.viewmodels.AuthViewModel
 import com.example.handicraft_graduation_project_2025.utils.CloudinaryManager
+import com.example.handicraft_graduation_project_2025.utils.SharedPrefUtil
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -31,8 +35,8 @@ import java.util.Locale
 class SetYourProfileFragment : Fragment() {
     private var _binding: FragmentSetYourProfileBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: AuthViewModel by viewModels()
-    private var imageFile: File? = null
+    private lateinit var viewModel: AuthViewModel
+    private lateinit var imageFile: File
     private val dateFormat = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
     private val calendar = Calendar.getInstance()
 
@@ -43,12 +47,7 @@ class SetYourProfileFragment : Fragment() {
                 Glide.with(this).load(uri).into(binding.profileImage)
 
                 // Save image to file
-                imageFile = createTempFile("profile_image", ".jpg")
-                requireContext().contentResolver.openInputStream(uri)?.use { input ->
-                    FileOutputStream(imageFile).use { output ->
-                        input.copyTo(output)
-                    }
-                }
+                imageFile = CloudinaryManager.uriToFile(uri,requireContext())
 
                 // Upload image to Cloudinary
                 uploadImageToCloudinary()
@@ -66,6 +65,7 @@ class SetYourProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel = ViewModelProvider(this)[AuthViewModel::class.java]
 
         // Setup gender spinner
         ArrayAdapter.createFromResource(
@@ -78,23 +78,8 @@ class SetYourProfileFragment : Fragment() {
         }
 
         // Setup date picker for birthdate
-        binding.birthdateEditText.setOnClickListener { showDatePicker() }
-        binding.birthdateEditText.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) showDatePicker()
-        }
-        // Enable clicking the calendar icon (drawableEnd)
-        binding.birthdateEditText.setOnTouchListener { _, event ->
-            if (event.action == android.view.MotionEvent.ACTION_UP) {
-                val drawable = binding.birthdateEditText.compoundDrawablesRelative[2] // drawableEnd
-                if (drawable != null && event.rawX >= (binding.birthdateEditText.right - drawable.bounds.width())) {
-                    showDatePicker()
-                    true
-                } else {
-                    false
-                }
-            } else {
-                false
-            }
+        binding.birthdateEditText.setOnClickListener {
+            showDatePicker()
         }
 
         // Back button
@@ -110,6 +95,7 @@ class SetYourProfileFragment : Fragment() {
 
         // Submit button
         binding.submitButton.setOnClickListener {
+            val uid= SharedPrefUtil.getUid(requireContext())!!
             val firstName = binding.firstNameEditText.text.toString().trim()
             val lastName = binding.lastNameEditText.text.toString().trim()
             val phone = binding.phoneEditText.text.toString().trim()
@@ -119,7 +105,7 @@ class SetYourProfileFragment : Fragment() {
 
             if (validateInputs(firstName, lastName, phone, location, birthdate)) {
                 //binding.progressBar.visibility = View.VISIBLE
-                viewModel.updateProfile(requireContext(), firstName, lastName, phone, location, gender, birthdate)
+                viewModel.updateProfile(requireContext(),uid, firstName, lastName, phone, location, gender, birthdate)
             }
         }
 
@@ -134,29 +120,6 @@ class SetYourProfileFragment : Fragment() {
         }
     }
 
-    private fun showDatePicker() {
-        // Initialize with current date or previously selected date
-        val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH)
-        val day = calendar.get(Calendar.DAY_OF_MONTH)
-
-        val datePickerDialog = DatePickerDialog(
-            requireContext(),
-            { _, selectedYear, selectedMonth, selectedDay ->
-                // Update calendar with selected date
-                calendar.set(selectedYear, selectedMonth, selectedDay)
-                // Format and set date in EditText
-                binding.birthdateEditText.setText(dateFormat.format(calendar.time))
-            },
-            year,
-            month,
-            day
-        )
-
-        // Set maximum date to today (prevent future dates)
-        datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
-        datePickerDialog.show()
-    }
 
     private fun validateInputs(firstName: String, lastName: String, phone: String, location: String, birthdate: String): Boolean {
         return when {
@@ -199,13 +162,17 @@ class SetYourProfileFragment : Fragment() {
     }
 
     private fun uploadImageToCloudinary() {
-        imageFile?.let { file ->
+        imageFile.let { file ->
             CoroutineScope(Dispatchers.Main).launch {
                 //binding.progressBar.visibility = View.VISIBLE
-                val userId = viewModel.isLoggedIn(requireContext()).takeIf { it }?.let {
-                    com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid
-                } ?: run {
-                    //binding.progressBar.visibility = View.GONE
+                if (!viewModel.isLoggedIn(requireContext())) {
+                   // binding.progressBar.visibility = View.GONE
+                    Snackbar.make(binding.root, getString(R.string.no_authenticated_user), Snackbar.LENGTH_LONG).show()
+                    return@launch
+                }
+
+                val userId = FirebaseAuth.getInstance().currentUser?.uid ?: run {
+                   // binding.progressBar.visibility = View.GONE
                     Snackbar.make(binding.root, getString(R.string.no_authenticated_user), Snackbar.LENGTH_LONG).show()
                     return@launch
                 }
@@ -218,14 +185,27 @@ class SetYourProfileFragment : Fragment() {
                     imageField = "profileImageUrl"
                 )
 
-                //binding.progressBar.visibility = View.GONE
+               // binding.progressBar.visibility = View.GONE
                 result.onSuccess { imageUrl ->
-                    viewModel.updateProfileImage(requireContext(), imageUrl)
+                    Log.d("TAG", "uploadImageToCloudinary: ")
+                    viewModel.updateProfileImage(imageUrl)
                 }.onFailure { e ->
                     Snackbar.make(binding.root, e.message ?: getString(R.string.image_upload_failed), Snackbar.LENGTH_LONG).show()
                 }
             }
         }
+    }
+    private fun showDatePicker() {
+        val calendar = Calendar.getInstance()
+        DatePickerDialog(
+            requireContext(),
+            { _, year, month, day ->
+                binding.birthdateEditText.setText(String.format("%02d/%02d/%04d", day, month + 1, year))
+            },
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        ).show()
     }
 
     override fun onDestroyView() {

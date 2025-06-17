@@ -6,7 +6,7 @@
 
         <fragment
             android:id="@+id/homeFragment"
-            android:name="com.example.handicraft.fragments.HomeFragment"
+            android:name="com.example.handicraft.ui.fragments.HomeFragment"
             android:label="HomeFragment">
 
             <action
@@ -60,7 +60,6 @@
                 android:id="@+id/action_productsFragment_to_userProfileFragment2"
                 app:destination="@id/userProfileFragment2" />
         </fragment>
-
         <fragment
             android:id="@+id/aiServicesFragment"
             android:name="com.example.handicraft.fragments.AIServicesFragment"

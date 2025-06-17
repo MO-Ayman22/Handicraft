@@ -1,10 +1,16 @@
 package com.example.handicraft.data.repository
 
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.handicraft.data.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
@@ -12,6 +18,7 @@ class AuthRepository(
     private val auth: FirebaseAuth,
     private val firestore: FirebaseFirestore
 ) {
+
     suspend fun signUp(email: String, password: String, user: User): Result<String> =
         withContext(Dispatchers.IO) {
             try {

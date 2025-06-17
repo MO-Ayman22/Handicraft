@@ -1,4 +1,4 @@
-package com.example.handicraft_graduation_project_2025.ui.viewmodels
+package com.example.handicraft.ui.viewmodels
 
 
 import androidx.lifecycle.LiveData
@@ -6,7 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.handicraft.data.models.Post
+import com.example.handicraft.data.models.User
 import com.example.handicraft.data.repository.PostRepository
+import com.example.handicraft.data.repository.UserRepository
 import com.example.handicraft_graduation_project_2025.data.models.Comment
 import com.example.handicraft_graduation_project_2025.data.models.Like
 
@@ -16,8 +18,13 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel : ViewModel() {
     private val postRepository = PostRepository(FirebaseFirestore.getInstance())
+    private val userRepository =  UserRepository(FirebaseFirestore.getInstance(), FirebaseAuth.getInstance())
     private val _posts = MutableLiveData<List<Post>>()
     val posts: LiveData<List<Post>> get() = _posts
+    private val _user = MutableLiveData<User?>()
+    val user: LiveData<User?> get() = _user
+    private val _users = MutableLiveData<List<User>>()
+    val users: LiveData<List<User>> get() = _users
 
     private val _comments = MutableLiveData<List<Comment>>()
     private val _likes = MutableLiveData<List<Like>>()
@@ -45,7 +52,29 @@ class HomeViewModel : ViewModel() {
             }
         }
     }
+    // ---------------- Fetch single user by ID ----------------
+    fun fetchUserById(userId: String) {
+        viewModelScope.launch {
+            val result = userRepository.getUser(userId)
+            if (result.isSuccess) {
+                _user.postValue(result.getOrNull())
+            } else {
+                _user.postValue(null)
+            }
+        }
+    }
 
+    // ---------------- Fetch list of users by IDs ----------------
+    fun fetchUsersByIds(userIds: List<String>) {
+        viewModelScope.launch {
+            val result = userRepository.getUsersByIds(userIds)
+            if (result.isSuccess) {
+                _users.postValue(result.getOrNull() ?: emptyList())
+            } else {
+                _users.postValue(emptyList())
+            }
+        }
+    }
     fun searchPosts(query: String) {
         currentQuery = query
         lastDocumentId = null

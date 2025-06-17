@@ -2,6 +2,7 @@ package com.example.handicraft.fragments
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,6 +47,7 @@ class CraftTypeFragment : Fragment() {
             }
 
             if (craftType != null) {
+                Log.d("TAG", "upload craftType: ")
                 viewModel.updateCraftType(craftType)
                 findNavController().navigate(R.id.action_craftTypeFragment_to_craftSkillFragment)
             } else {
