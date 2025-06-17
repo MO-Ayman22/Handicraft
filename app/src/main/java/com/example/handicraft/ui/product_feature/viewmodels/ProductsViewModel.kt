@@ -6,7 +6,7 @@ import com.example.handicraft.data.repository.ProductRepository
 import com.example.handicraft.data.repository.UserRepository
 import com.example.handicraft_graduation_project_2025.data.models.Product
 
-import com.example.handicraft_graduation_project_2025.utils.Resource
+import com.example.handicraft.utils.Resource
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch

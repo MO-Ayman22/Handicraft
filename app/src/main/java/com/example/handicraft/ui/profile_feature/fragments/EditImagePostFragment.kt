@@ -1,4 +1,4 @@
-package com.example.handicraft_graduation_project_2025.ui.profile_feature.fragments
+package com.example.handicraft.ui.profile_feature.fragments
 
 import android.app.Activity
 import android.content.Intent
@@ -17,22 +17,31 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.example.handicraft.R
+import com.example.handicraft.data.models.Post
+import com.example.handicraft.data.models.User
+import com.example.handicraft.databinding.FragmentEditImagePostBinding
+import com.example.handicraft.ui.profile_feature.viewmodels.AddPostViewModel
+import com.example.handicraft_graduation_project_2025.utils.CloudinaryManager
+import com.example.handicraft_graduation_project_2025.utils.SharedPrefUtil
+import kotlinx.coroutines.launch
+import java.util.UUID
 
 
 class EditImagePostFragment : DialogFragment() {
 
-    /*private lateinit var binding: FragmentEditImagePostBinding
+    private lateinit var binding: FragmentEditImagePostBinding
     private lateinit var imagePickerLauncher: ActivityResultLauncher<Intent>
     private val imageUris = mutableListOf<Uri>()
 
-    private lateinit var postViewModel: PostViewModel
-    private lateinit var userViewModel: UserViewModel
+    private lateinit var viewModel: AddPostViewModel
     private lateinit var currentUser: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        postViewModel = ViewModelProvider(this)[PostViewModel::class.java]
-        userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
+        viewModel = ViewModelProvider(this)[AddPostViewModel::class.java]
         imagePickerLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
@@ -71,12 +80,12 @@ class EditImagePostFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         CloudinaryManager.initialize(requireContext())
-        userViewModel.user.observe(this) { user ->
+        viewModel.user.observe(this) { user ->
             if (user != null) {
                 currentUser = user
             }
         }
-        userViewModel.fetchUserById(SharedPrefUtil.getUid(requireContext())!!)
+        viewModel.fetchUserById(SharedPrefUtil.getUid(requireContext())!!)
         binding.pickImageButton.setOnClickListener { openGallery() }
         binding.publishButton.setOnClickListener {
             val content = binding.editText.text.toString().trim()
@@ -87,11 +96,6 @@ class EditImagePostFragment : DialogFragment() {
             }
             uploadImagesAndCreatePost(content)
         }
-
-        postViewModel.postState.onEach { state ->
-            binding.progressBar.visibility =
-                if (state is PostState.Loading) View.VISIBLE else View.GONE
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun openGallery() {
@@ -151,11 +155,11 @@ class EditImagePostFragment : DialogFragment() {
             try {
                 val urls = mutableListOf<String>()
                 for (uri in imageUris) {
-                    val file = uri.toFile(requireContext()) ?: continue
+                    val file = CloudinaryManager.uriToFile(uri, requireContext()) ?: continue
                     val result = CloudinaryManager.uploadImage(
                         context = requireContext(),
                         imageFile = file,
-                        collectionPath = "posts",
+                        collectionPath = "images",
                         documentId = UUID.randomUUID().toString(),
                         imageField = "imageUrl"
                     )
@@ -173,28 +177,14 @@ class EditImagePostFragment : DialogFragment() {
                 }
 
                 val post = Post(
-                    userId = currentUser.userId,
+                    userId = currentUser.uid,
                     content = content,
-                    imageUrl = urls,
-                    craftType = currentUser.craftType,
-                    createdAt = null,
+                    imageUrls = urls,
                     likesCount = 0,
                     commentsCount = 0
                 )
 
-                postViewModel.createPost(post) { success, error ->
-                    binding.progressBar.visibility = View.GONE
-                    if (success) {
-                        Toast.makeText(requireContext(), "Post created!", Toast.LENGTH_SHORT).show()
-                        dismiss()
-                    } else {
-                        Toast.makeText(
-                            requireContext(),
-                            error ?: "Error creating post",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
+                viewModel.savePost(post, currentUser.uid)
 
             } catch (e: Exception) {
                 binding.progressBar.visibility = View.GONE
@@ -203,9 +193,6 @@ class EditImagePostFragment : DialogFragment() {
             }
         }
     }
-*/
-
-     */
 }
 
 

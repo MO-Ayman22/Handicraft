@@ -37,7 +37,7 @@
                 android:lines="1"
                 android:maxLines="1"
                 android:padding="8dp"
-                android:popupBackground="@color/background_white"
+                android:popupBackground="@color/custom_background_color"
                 android:textColor="@color/text_primary"
                 android:textColorHint="@color/text_secondary"
                 android:textSize="16sp" />

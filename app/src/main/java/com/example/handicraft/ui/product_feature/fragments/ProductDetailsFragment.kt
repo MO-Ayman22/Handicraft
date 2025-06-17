@@ -11,12 +11,13 @@ import com.example.handicraft.data.models.User
 import com.example.handicraft.databinding.FragmentProductDetailsBinding
 import com.example.handicraft_graduation_project_2025.data.models.Product
 import com.example.handicraft.ui.product_feature.adapters.ColorAdapter
+import com.example.handicraft.ui.product_feature.adapters.OnColorsClickListener
 import com.example.handicraft.ui.product_feature.adapters.ProductImageAdapter
 import com.example.handicraft.ui.product_feature.viewmodels.ProductsViewModel
 import com.example.handicraft.utils.Constants
 
 
-class ProductDetailsFragment : Fragment() {
+class ProductDetailsFragment : Fragment(), OnColorsClickListener {
     private lateinit var productId: String
     private var currentProduct: Product? = null
     private var productMaker: User? = null
@@ -62,7 +63,7 @@ class ProductDetailsFragment : Fragment() {
     private fun setupColorRecyclerView() {
         val availableColors = currentProduct?.colors ?: emptyList()
         colorAdapter = ColorAdapter(
-            availableColors.toList()
+            availableColors.toList(),this
         )
         binding.rvColors.adapter = colorAdapter
     }
@@ -112,5 +113,12 @@ class ProductDetailsFragment : Fragment() {
                 putString(Constants.PRODUCT_KEY, productId)
             }
         }
+    }
+
+    override fun onAddColorClicked() {
+
+    }
+
+    override fun onColorClicked(view: View, position: Int) {
     }
 }

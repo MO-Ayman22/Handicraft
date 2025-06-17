@@ -5,15 +5,13 @@ import com.google.firebase.firestore.ServerTimestamp
 import java.util.Date
 
 data class Post(
-
     var postId: String = "",
     var userId: String = "",
     var content: String = "",
     var imageUrls: List<String> = emptyList(),
     var likes: List<String> = emptyList(),
     var comments: List<Comment> = emptyList(),
-    @ServerTimestamp val createdAt: Date? = null,
     var likesCount: Int = 0,
     var commentsCount: Int = 0,
-    var isLiked: Boolean=false
+    @ServerTimestamp val createdAt: Date? = null
 )

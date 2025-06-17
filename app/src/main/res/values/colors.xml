@@ -2,24 +2,26 @@
 <resources>
     <!-- Primary Colors -->
     <color name="purple_500">#7E4ECC</color>
-    <color name="purple_700">#3700B3</color>
-
     <!-- Text Colors -->
     <color name="text_primary">#0D1217</color>
+    <color name="text_delete">#A91212</color>
     <color name="text_secondary">#8A7F99</color>
     <color name="text_white">#FFFFFF</color>
+    <color name="search_bg_color">#FCFCFC</color>
 
     <!-- Background -->
-    <color name="background_white">#FCFCFC</color>
+    <color name="custom_background_color">#FCFCFC</color>
+    <color name="edit_text_drawables_tint">#8A7F99</color>
+    <color name="edit_text_background">#FCFCFC</color>
+    <color name="item_background">#FCFCFC</color>
 
     <!-- Chip Background States -->
     <color name="chip_bg_hover">#D2CED8</color>
     <color name="chip_bg_checked">#D1B8F9</color>
     <color name="chip_bg_unchecked">#FCFCFC</color>
 
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="purple">#7E4ECC</color>
-    <color name="brown">#8A463E</color>
+
     <color name="dark_theme">#1A1A1A</color>
+    <color name="button_text_color">#FCFCFC</color>
+    <color name="head_titels_text_color">#FCFCFC</color>
 </resources>

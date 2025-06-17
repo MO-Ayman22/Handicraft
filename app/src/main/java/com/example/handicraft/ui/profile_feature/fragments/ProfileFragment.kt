@@ -1,6 +1,7 @@
 package com.example.handicraft.ui.profile_feature.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,16 +11,19 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.handicraft.R
+import com.example.handicraft.data.models.Post
 import com.example.handicraft.data.models.User
 import com.example.handicraft.databinding.FragmentProfileBinding
-import com.example.handicraft.ui.profile_feature.adapters.OnProfilePostClickListener
-import com.example.handicraft.ui.profile_feature.adapters.ProfilePostAdapter
+import com.example.handicraft.fragments.CommentBottomSheet
+import com.example.handicraft.fragments.LikesBottomSheet
+import com.example.handicraft.ui.adapters.OnProfilePostClickListener
+import com.example.handicraft.ui.adapters.ProfilePostAdapter
+
 import com.example.handicraft.ui.profile_feature.adapters.OnProfileProductClickListener
 import com.example.handicraft_graduation_project_2025.data.models.Product
 import com.example.handicraft.ui.profile_feature.adapters.ProfileProductAdapter
 import com.example.handicraft.ui.profile_feature.viewmodels.ProfileViewModel
 import com.example.handicraft.utils.Constants
-import com.example.handicraft_graduation_project_2025.ui.profile_feature.fragments.AddPostFragment
 import com.example.handicraft_graduation_project_2025.utils.SharedPrefUtil
 import com.google.android.material.tabs.TabLayout
 
@@ -31,6 +35,7 @@ class ProfileFragment : Fragment(), OnProfileProductClickListener, OnProfilePost
     private lateinit var profileViewModel: ProfileViewModel
     private lateinit var userMap: Map<String, User>
     private var currentProductsList: List<Product> = emptyList()
+    private var currentPostsList: List<Post> = emptyList()
 
     private var selectedTab: String = Constants.POSTS_KEY
     private var isFabExpanded = false
@@ -66,27 +71,85 @@ class ProfileFragment : Fragment(), OnProfileProductClickListener, OnProfilePost
                 bindUserInfo(it)
                 initNumericalData()
                 setupTabs(it.userType)
+                // Trigger initial fetch based on the selected tab
+                if (selectedTab == Constants.POSTS_KEY) {
+                    profileViewModel.fetchPostsByUser(it.uid)
+                } else if (selectedTab == Constants.PRODUCTS_KEY) { // Changed to else if to avoid double fetch if tab is not set or defaulted
+                    profileViewModel.fetchProductsByUser(it.uid)
+                }
             }
         }
 
-        profileViewModel.users.observe(viewLifecycleOwner) { users ->
-            userMap = users.associateBy { it.uid }
-            if (selectedTab == Constants.PRODUCTS_KEY) {
-                productsAdapter.updateList(currentProductsList, userMap, currentUser!!)
+        profileViewModel.userPosts.observe(viewLifecycleOwner) { posts ->
+            currentPostsList = posts
+            val userIds = posts.map { it.userId }.distinct()
+
+            Log.d("ProfileFragment", "User Posts Observed: $posts")
+            Log.d("ProfileFragment", "User ids Observed: $userIds")
+
+            if (posts.isEmpty()) {
+                binding.rvProfilePosts.visibility = View.GONE
+                binding.noResultsLayout.visibility = View.VISIBLE
+                binding.tvNoResults.setText(R.string.you_have_no_posts_yet) // Ensure this text is set for posts
+            } else {
+                binding.rvProfilePosts.visibility = View.VISIBLE
+                binding.noResultsLayout.visibility = View.GONE
+            }
+
+            // Fetch users for these posts if needed, then update the adapter
+            if (userIds.isNotEmpty()) {
+                profileViewModel.fetchUsersByIds(userIds)
+            } else {
+                // If no posts, or no users associated, ensure the adapter is still updated
+                // with empty data or existing data to clear previous content.
+                if (selectedTab == Constants.POSTS_KEY) { // Only update if "Posts" tab is active
+                    postsAdapter.updatePosts(
+                        currentPostsList,
+                        userMap,
+                        currentUser?.uid ?: ""
+                    ) // Provide default empty string for uid
+                }
             }
         }
 
         profileViewModel.userProducts.observe(viewLifecycleOwner) { products ->
             currentProductsList = products
             val userIds = products.map { it.userId }.distinct()
+
+            Log.d("ProfileFragment", "User Products Observed: $products")
+
             if (products.isEmpty()) {
                 binding.rvProfileProducts.visibility = View.GONE
                 binding.noResultsLayout.visibility = View.VISIBLE
+                binding.tvNoResults.setText(R.string.you_have_no_products_yet)
             } else {
                 binding.rvProfileProducts.visibility = View.VISIBLE
                 binding.noResultsLayout.visibility = View.GONE
             }
-            profileViewModel.fetchUsersByIds(userIds)
+
+            if (userIds.isNotEmpty()) {
+                profileViewModel.fetchUsersByIds(userIds)
+            } else {
+                if (selectedTab == Constants.PRODUCTS_KEY) { // Only update if "Products" tab is active
+                    productsAdapter.updateList(
+                        currentProductsList,
+                        userMap,
+                        currentUser!!
+                    ) // currentUser should be non-null here, but consider defensive programming
+                }
+            }
+        }
+
+        profileViewModel.users.observe(viewLifecycleOwner) { users ->
+            userMap = users.associateBy { it.uid }
+            Log.d("ProfileFragment", "Users Map Updated: ${userMap.keys}")
+
+            // Now that userMap is updated, update the relevant adapter if the tab is selected
+            if (selectedTab == Constants.PRODUCTS_KEY) {
+                productsAdapter.updateList(currentProductsList, userMap, currentUser!!)
+            } else { // Implies selectedTab is Constants.POSTS_KEY or initial state
+                postsAdapter.updatePosts(currentPostsList, userMap, currentUser?.uid ?: "")
+            }
         }
     }
 
@@ -156,7 +219,7 @@ class ProfileFragment : Fragment(), OnProfileProductClickListener, OnProfilePost
             setHasFixedSize(true)
         }
 
-        postsAdapter = ProfilePostAdapter(emptyList(), emptyMap(), this)
+        postsAdapter = ProfilePostAdapter(emptyList(), this)
         binding.rvProfilePosts.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = postsAdapter
@@ -192,15 +255,14 @@ class ProfileFragment : Fragment(), OnProfileProductClickListener, OnProfilePost
 
     private fun showPosts() {
         selectedTab = Constants.POSTS_KEY
-        binding.rvProfilePosts.visibility = View.VISIBLE
-        binding.tvNoResults.setText(R.string.you_have_no_products_yet)
         binding.rvProfileProducts.visibility = View.GONE
+        binding.tvNoResults.setText(R.string.you_have_no_posts_yet)
+        currentUser?.let { profileViewModel.fetchPostsByUser(it.uid) }
     }
 
     private fun showProducts() {
         selectedTab = Constants.PRODUCTS_KEY
         binding.rvProfilePosts.visibility = View.GONE
-        binding.rvProfileProducts.visibility = View.VISIBLE
         binding.tvNoResults.setText(R.string.you_have_no_products_yet)
         currentUser?.let { profileViewModel.fetchProductsByUser(it.uid) }
     }
@@ -263,14 +325,14 @@ class ProfileFragment : Fragment(), OnProfileProductClickListener, OnProfilePost
     }
 
     override fun onCommentClick(position: Int, postId: String) {
-        // TODO("Not yet implemented")
+        CommentBottomSheet(postId).show(childFragmentManager, "CommentBottomSheet")
     }
 
     override fun onLikeClick(position: Int, postId: String, isLiked: Boolean) {
-        // TODO("Not yet implemented")
+        profileViewModel.toggleLike(postId, isLiked)
     }
 
     override fun onLikesCountClick(position: Int, postId: String) {
-        // TODO("Not yet implemented")
+        LikesBottomSheet(postId).show(childFragmentManager, "LikesBottomSheet")
     }
 }
