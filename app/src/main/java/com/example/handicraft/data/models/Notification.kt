@@ -1,4 +1,4 @@
-package com.example.handicraft_graduation_project_2025.data.models
+package com.example.handicraft.data.models
 
 data class Notification(
     var message: String = "",

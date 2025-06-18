@@ -1,6 +1,5 @@
 package com.example.handicraft.ui.adapters
 
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +24,6 @@ class PostAdapter(
     private val listener: OnPostClickListener
 ) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val binding = ItemPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return PostViewHolder(binding)
@@ -35,39 +33,61 @@ class PostAdapter(
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         val (post, user, isLiked) = postsList[position]
-
         holder.bind(post, user, isLiked)
     }
 
     inner class PostViewHolder(private val binding: ItemPostBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         fun bind(post: Post, user: User, isLiked: Boolean) {
             binding.apply {
                 tvUsername.text = user.username
                 tvContent.text = post.content
-                Glide.with(binding.root)
+                Glide.with(root)
                     .load(user.profileImageUrl)
                     .placeholder(R.drawable.ic_user)
                     .into(imgUser)
                 likesCount.text = post.likesCount.toString()
                 commentsCount.text = post.commentsCount.toString()
-                if (isLiked)
-                    binding.likeIcon.setImageResource(R.drawable.ic_like_active)
-                else
-                    binding.likeIcon.setImageResource(R.drawable.ic_like)
+                likeIcon.setImageResource(
+                    if (isLiked) R.drawable.ic_like_active else R.drawable.ic_like
+                )
             }
+
             displayImages(post.imageUrls)
+
             binding.likeIcon.setOnClickListener {
                 listener.onLikeClick(adapterPosition, post.postId, !isLiked)
-                postsList[adapterPosition].isLiked = !isLiked
-                notifyItemChanged(adapterPosition)
-
+                toggleLike()
             }
+
             binding.likesCount.setOnClickListener {
                 listener.onLikesCountClick(adapterPosition, post.postId)
             }
+
             binding.commentsCount.setOnClickListener {
                 listener.onCommentClick(adapterPosition, post.postId)
+            }
+        }
+
+        fun toggleLike() {
+            val position = adapterPosition
+            if (position != RecyclerView.NO_POSITION) {
+                val uiPost = postsList[position]
+                uiPost.isLiked = !uiPost.isLiked
+
+                val newLikesCount = if (uiPost.isLiked) {
+                    uiPost.post.likesCount + 1
+                } else {
+                    uiPost.post.likesCount - 1
+                }
+
+                uiPost.post.likesCount = newLikesCount
+
+                binding.likesCount.text = newLikesCount.toString()
+                binding.likeIcon.setImageResource(
+                    if (uiPost.isLiked) R.drawable.ic_like_active else R.drawable.ic_like
+                )
             }
         }
 
@@ -121,7 +141,7 @@ class PostAdapter(
     }
 
     fun updatePosts(posts: List<Post>, usersMap: Map<String, User>, currentUserId: String) {
-        val newList = posts.map { post ->
+        val newList = posts.mapNotNull { post ->
             usersMap[post.userId]?.let {
                 UiPost(
                     post = post,
@@ -130,14 +150,13 @@ class PostAdapter(
                 )
             }
         }
-        newList.let {
-            postsList = it.filterNotNull()
-            notifyDataSetChanged()
-        }
+        postsList = newList
+        notifyDataSetChanged()
     }
-}
+
     interface OnPostClickListener {
         fun onCommentClick(position: Int, postId: String)
-        fun onLikeClick(position: Int, postId: String, isLiked: Boolean)
+        fun onLikeClick(position: Int, postId: String, liked: Boolean)
         fun onLikesCountClick(position: Int, postId: String)
     }
+}

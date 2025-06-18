@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.handicraft.R
 import com.example.handicraft.data.models.User
@@ -95,29 +96,17 @@ class FollowersFragment : Fragment(), OnFollowerItemClickListener {
 
     override fun onItemClicked(followerItem: FollowerItem) {
         val user = currentUser ?: return
-        val fragment = UserProfileFragment.newInstance(followerItem.user.uid, user)
-        navigateTo(fragment)
+        findNavController().navigate(R.id.action_followersFragment_to_userProfileFragment2, Bundle().apply {
+            putString(Constants.USER_ID_KEY, followerItem.user.uid)
+            putParcelable(Constants.USER_KEY, user)
+        })
     }
 
-    private fun navigateTo(fragment: Fragment) {
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.nav_host_fragment, fragment)
-            .addToBackStack(null)
-            .commit()
-    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
-    companion object {
-        fun newInstance(userId: String): FollowersFragment {
-            return FollowersFragment().apply {
-                arguments = Bundle().apply {
-                    putString(Constants.USER_ID_KEY, userId)
-                }
-            }
-        }
-    }
 }

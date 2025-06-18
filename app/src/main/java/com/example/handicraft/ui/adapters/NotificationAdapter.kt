@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.handicraft.databinding.ItemNotificationBinding
-import com.example.handicraft_graduation_project_2025.data.models.Notification
+import com.example.handicraft.data.models.Notification
 
 class NotificationAdapter : ListAdapter<Notification, NotificationAdapter.NotificationViewHolder>(NotificationDiffCallback()) {
 

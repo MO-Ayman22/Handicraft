@@ -4,70 +4,78 @@
     android:id="@+id/bottom_nav_graph"
     app:startDestination="@id/homeFragment">
 
-        <fragment
-            android:id="@+id/homeFragment"
-            android:name="com.example.handicraft.ui.fragments.HomeFragment"
-            android:label="HomeFragment">
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.handicraft.ui.fragments.HomeFragment"
+        android:label="HomeFragment">
 
-            <action
-                android:id="@+id/action_homeFragment_to_chatsFragment"
-                app:destination="@id/chatsFragment" />
-            <action
-                android:id="@+id/action_homeFragment_to_notificationFragment"
-                app:destination="@id/notificationsFragment" />
-            <action
-                android:id="@+id/action_homeFragment_to_profileFragment"
-                app:destination="@id/profileFragment" />
-            <action
-                android:id="@+id/action_homeFragment_to_settingsFragment"
-                app:destination="@id/settingsFragment" />
-            <action
-                android:id="@+id/action_homeFragment_to_signInFragment2"
-                app:destination="@id/signInFragment2" />
-        </fragment>
+        <action
+            android:id="@+id/action_homeFragment_to_chatsFragment"
+            app:destination="@id/chatsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_notificationFragment"
+            app:destination="@id/notificationsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_signInFragment2"
+            app:destination="@id/signInFragment2" />
+    </fragment>
 
 
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.handicraft.ui.profile_feature.fragments.ProfileFragment"
+        android:label="ProfileFragment">
 
-        <fragment
-            android:id="@+id/profileFragment"
-            android:name="com.example.handicraft.ui.profile_feature.fragments.ProfileFragment"
-            android:label="ProfileFragment" >
-            <action
-                android:id="@+id/action_profileFragment_to_editProfileFragment"
-                app:destination="@id/editProfileFragment" />
-            <action
-                android:id="@+id/action_profileFragment_to_followingFragment"
-                app:destination="@id/followingFragment" />
-            <action
-                android:id="@+id/action_profileFragment_to_followersFragment"
-                app:destination="@id/followersFragment" />
-        </fragment>
+        <action
+            android:id="@+id/action_profileFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_followingFragment"
+            app:destination="@id/followingFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_followersFragment"
+            app:destination="@id/followersFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_productsDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
+        <action android:id="@+id/action_profileFragment_to_AddProductFragment"
+            app:destination="@id/addProductFragment2" />
+        <action
+            android:id="@+id/action_profileFragment_to_userProfileFragment2"
+            app:destination="@id/userProfileFragment2" />
+    </fragment>
 
-        <fragment
-            android:id="@+id/productsFragment"
-            android:name="com.example.handicraft.ui.product_feature.fragments.ProductsFragment"
-            android:label="ProductsFragment" >
-            <action
-                android:id="@+id/action_productsFragment_to_profileFragment"
-                app:destination="@id/profileFragment" />
-            <action
-                android:id="@+id/action_productsFragment_to_productDetailsFragment"
-                app:destination="@id/productDetailsFragment" />
-            <action
-                android:id="@+id/action_productsFragment_to_categoryFragment"
-                app:destination="@id/categoryFragment" />
-            <action
-                android:id="@+id/action_productsFragment_to_userProfileFragment2"
-                app:destination="@id/userProfileFragment2" />
-        </fragment>
-        <fragment
-            android:id="@+id/aiServicesFragment"
-            android:name="com.example.handicraft.fragments.AIServicesFragment"
-            android:label="AIServicesFragment" />
+    <fragment
+        android:id="@+id/productsFragment"
+        android:name="com.example.handicraft.ui.product_feature.fragments.ProductsFragment"
+        android:label="ProductsFragment">
+        <action
+            android:id="@+id/action_productsFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_productsFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
+        <action
+            android:id="@+id/action_productsFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment" />
+        <action
+            android:id="@+id/action_productsFragment_to_userProfileFragment2"
+            app:destination="@id/userProfileFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/aiServicesFragment"
+        android:name="com.example.handicraft.ui.fragments.AIServicesFragment"
+        android:label="AIServicesFragment" />
     <fragment
         android:id="@+id/chatsFragment"
         android:name="com.example.handicraft.ui.fragments.ChatsFragment"
-        android:label="ChatsFragment" >
+        android:label="ChatsFragment">
         <action
             android:id="@+id/action_chatsFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
@@ -76,7 +84,7 @@
     <fragment
         android:id="@+id/notificationsFragment"
         android:name="com.example.handicraft.ui.fragments.NotificationFragment"
-        android:label="NotificationsFragment" >
+        android:label="NotificationsFragment">
         <action
             android:id="@+id/action_notificationsFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
@@ -92,8 +100,11 @@
     <fragment
         android:id="@+id/followersFragment"
         android:name="com.example.handicraft.ui.profile_feature.fragments.FollowersFragment"
-        android:label="FollowersFragment" >
-
+        android:label="FollowersFragment">
+        <argument
+            android:name="userId"
+            app:argType="string"
+            app:nullable="false"/>
         <action
             android:id="@+id/action_followersFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
@@ -104,7 +115,11 @@
     <fragment
         android:id="@+id/followingFragment"
         android:name="com.example.handicraft.ui.profile_feature.fragments.FollowingFragment"
-        android:label="FollowingFragment" >
+        android:label="FollowingFragment">
+        <argument
+            android:name="userId"
+            app:argType="string"
+            app:nullable="false"/>
         <action
             android:id="@+id/action_followingFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
@@ -115,7 +130,7 @@
     <fragment
         android:id="@+id/editProfileFragment"
         android:name="com.example.handicraft.ui.profile_feature.fragments.EditProfileFragment"
-        android:label="EditProfileFragment" >
+        android:label="EditProfileFragment">
         <action
             android:id="@+id/action_editProfileFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
@@ -123,7 +138,7 @@
     <fragment
         android:id="@+id/userProfileFragment2"
         android:name="com.example.handicraft.ui.profile_feature.fragments.UserProfileFragment"
-        android:label="UserProfileFragment" >
+        android:label="UserProfileFragment">
         <action
             android:id="@+id/action_userProfileFragment2_to_followersFragment"
             app:destination="@id/followersFragment" />
@@ -134,11 +149,16 @@
     <fragment
         android:id="@+id/productDetailsFragment"
         android:name="com.example.handicraft.ui.product_feature.fragments.ProductDetailsFragment"
-        android:label="ProductDetailsFragment" />
+        android:label="ProductDetailsFragment">
+    <argument
+        android:name="productId"
+        app:argType="string"
+        app:nullable="false"/>
+    </fragment>
     <fragment
         android:id="@+id/categoryFragment"
         android:name="com.example.handicraft_graduation_project_2025.ui.product_feature.fragments.CategoryFragment"
-        android:label="CategoryFragment" >
+        android:label="CategoryFragment">
         <action
             android:id="@+id/action_categoryFragment_to_productsFragment"
             app:destination="@id/productsFragment" />
@@ -155,7 +175,7 @@
     <fragment
         android:id="@+id/favouritesFragment"
         android:name="com.example.handicraft.ui.product_feature.fragments.FavouritesFragment"
-        android:label="FavouritesFragment" >
+        android:label="FavouritesFragment">
         <action
             android:id="@+id/action_favouritesFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
@@ -166,6 +186,10 @@
             android:id="@+id/action_favouritesFragment_to_productDetailsFragment"
             app:destination="@id/productDetailsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/addProductFragment2"
+        android:name="com.example.handicraft.ui.product_feature.fragments.AddProductFragment"
+        android:label="AddProductFragment" />
 
 </navigation>
 

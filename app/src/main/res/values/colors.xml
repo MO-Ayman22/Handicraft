@@ -21,7 +21,7 @@
     <color name="chip_bg_unchecked">#FCFCFC</color>
 
 
-    <color name="dark_theme">#1A1A1A</color>
+    <color name="dark_nav_bar">#1A1A1A</color>
     <color name="button_text_color">#FCFCFC</color>
     <color name="head_titels_text_color">#FCFCFC</color>
 </resources>

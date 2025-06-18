@@ -46,14 +46,7 @@ class UserRepository(
     }
     // ------------------- SAVE / GET USER -------------------
 
-    suspend fun saveUser(user: User): Result<Unit> = withContext(Dispatchers.IO) {
-        try {
-            userCollection.document(user.uid).set(user).await()
-            Result.success(Unit)
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
+
      suspend fun updateUser(user: User): Result<Unit> = withContext(Dispatchers.IO) {
         try {
             userCollection.document(user.uid)

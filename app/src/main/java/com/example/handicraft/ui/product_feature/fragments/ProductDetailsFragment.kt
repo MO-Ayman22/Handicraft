@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.handicraft.data.models.User
 import com.example.handicraft.databinding.FragmentProductDetailsBinding
@@ -34,7 +35,8 @@ class ProductDetailsFragment : Fragment(), OnColorsClickListener {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentProductDetailsBinding.inflate(inflater, container, false)
-        productId = arguments?.getString(Constants.PRODUCT_KEY) ?: ""
+
+        productId = arguments?.getString(Constants.PRODUCT_KEY)!!
         return binding.root
     }
 
@@ -107,13 +109,6 @@ class ProductDetailsFragment : Fragment(), OnColorsClickListener {
         _binding = null
     }
 
-    companion object {
-        fun newInstance(productId: String) = ProductDetailsFragment().apply {
-            arguments = Bundle().apply {
-                putString(Constants.PRODUCT_KEY, productId)
-            }
-        }
-    }
 
     override fun onAddColorClicked() {
 

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.handicraft.data.models.User
+import com.example.handicraft.data.repository.PostRepository
 import com.example.handicraft.data.repository.ProductRepository
 import com.example.handicraft.data.repository.UserRepository
 import com.example.handicraft_graduation_project_2025.data.models.Product
@@ -19,6 +20,7 @@ class UserProfileViewModel : ViewModel() {
     private val productRepository = ProductRepository()
     private val userRepository =
         UserRepository(FirebaseFirestore.getInstance(), FirebaseAuth.getInstance())
+    private val postRepository = PostRepository()
 
     private val _userProducts = MutableLiveData<List<Product>>()
     val userProducts: LiveData<List<Product>> get() = _userProducts
@@ -33,7 +35,16 @@ class UserProfileViewModel : ViewModel() {
 
     private val _operationStatus = MutableLiveData<Result<Unit>>()
     val operationStatus: LiveData<Result<Unit>> get() = _operationStatus
+    private val _toggleLikeStatus = MutableLiveData<Resource<Unit>>()
+    val toggleLikeStatus: LiveData<Resource<Unit>> = _toggleLikeStatus
 
+    fun toggleLike(postId: String, userId: String) {
+        viewModelScope.launch {
+            _toggleLikeStatus.value = Resource.Loading
+            val result = postRepository.toggleLike(postId, userId)
+            _toggleLikeStatus.value = result
+        }
+    }
 
     fun addToFavorites(userId: String, productId: String) {
         viewModelScope.launch {

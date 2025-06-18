@@ -1,6 +1,6 @@
 package com.example.handicraft.viewmodels
 
-import com.example.handicraft_graduation_project_2025.data.models.Notification
+import com.example.handicraft.data.models.Notification
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

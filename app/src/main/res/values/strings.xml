@@ -124,7 +124,7 @@
     <string name="already_have_account">Already have an account? sign in</string>
     <string name="search_on_product">Search_on_product</string>
     <string name="no_results_found">No_results_found</string>
-    <string name="we_re_sorry_there_are_no_results_for_this_search_please_try_another_search">We_re_sorry_there_are_no_results_for_this_search_please_try_another_search</string>
+    <string name="we_re_sorry_there_are_no_results_for_this_search_please_try_another_search">We are sorry there are no results for this search please try another search</string>
     <string name="set_your_profile">Set_your_profile</string>
     <string name="first_name">First_name</string>
     <string name="last_name">Last_name</string>
@@ -147,12 +147,12 @@
     <string name="sign_up">Sign up</string>
     <string name="sign_up_description">Fill in your information below or sign up using your social account.</string>
     <string name="username">Username</string>
-    <string name="profile_image">Profile_image</string>
-    <string name="show_profile">Show_profile</string>
+    <string name="profile_image">Profile image</string>
+    <string name="show_profile">Show profile</string>
     <string name="home">Home</string>
     <string name="products">Products</string>
     <string name="services">Services</string>
-    <string name="my_account">My_account</string>
+    <string name="my_account">My account</string>
     <string name="favorites">Favorites</string>
     <string name="language">Language</string>
     <string name="dark_mode">Dark mode</string>
@@ -216,4 +216,7 @@
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="ai_services">AI Services</string>
+    <string name="our_ai_powered_features">Our AI-Powered Features</string>
+    <string name="discover_how_our_ai_services_can_help_you_find_unique_and_innovative_craft_solutions">Discover how our AI services can help you find unique and innovative craft solutions.</string>
 </resources>

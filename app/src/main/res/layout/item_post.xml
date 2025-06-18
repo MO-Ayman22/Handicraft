@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:background="@color/item_background"
     android:layout_height="wrap_content"
+    android:padding="8dp"
     android:layout_margin="30dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -37,15 +38,6 @@
         app:layout_constraintStart_toEndOf="@id/tv_username"
         app:layout_constraintTop_toTopOf="@+id/tv_username" />
 
-    <ImageView
-        android:id="@+id/icon_options"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        app:tint="@color/text_secondary"
-        android:src="@drawable/ic_options"
-        app:layout_constraintBottom_toBottomOf="@+id/img_user"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/img_user" />
 
     <LinearLayout
         android:id="@+id/post_layout"

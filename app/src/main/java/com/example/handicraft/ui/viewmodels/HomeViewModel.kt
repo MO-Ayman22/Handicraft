@@ -9,15 +9,17 @@ import com.example.handicraft.data.models.Post
 import com.example.handicraft.data.models.User
 import com.example.handicraft.data.repository.PostRepository
 import com.example.handicraft.data.repository.UserRepository
+import com.example.handicraft.utils.Resource
 import com.example.handicraft_graduation_project_2025.data.models.Comment
 import com.example.handicraft_graduation_project_2025.data.models.Like
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 
 class HomeViewModel : ViewModel() {
-    private val postRepository = PostRepository(FirebaseFirestore.getInstance())
+    private val postRepository = PostRepository()
     private val userRepository =  UserRepository(FirebaseFirestore.getInstance(), FirebaseAuth.getInstance())
     private val _posts = MutableLiveData<List<Post>>()
     val posts: LiveData<List<Post>> get() = _posts
@@ -33,25 +35,35 @@ class HomeViewModel : ViewModel() {
     private var lastDocumentId: String? = null
     private var isLoading = false
 
-    init {
-        loadPosts()
-    }
+    private val _toggleLikeStatus = MutableLiveData<Resource<Unit>>()
+    val toggleLikeStatus: LiveData<Resource<Unit>> = _toggleLikeStatus
 
-    fun loadPosts() {
+    fun toggleLike(postId: String, userId: String) {
+        viewModelScope.launch {
+            _toggleLikeStatus.value = Resource.Loading
+            val result = postRepository.toggleLike(postId, userId)
+            _toggleLikeStatus.value = result
+        }
+    }
+    private var lastSnapshot: DocumentSnapshot? = null
+
+    fun getAllPosts(query: String = "") {
         if (isLoading) return
         isLoading = true
+        currentQuery = query
+
         viewModelScope.launch {
-            postRepository.getPosts(currentQuery, lastDocumentId).onSuccess { newPosts ->
-                val currentPosts = _posts.value.orEmpty().toMutableList()
-                currentPosts.addAll(newPosts)
-                _posts.value = currentPosts
-                lastDocumentId = newPosts.lastOrNull()?.postId
-                isLoading = false
+            postRepository.getAllPosts(query).onSuccess { posts ->
+                _posts.value = posts
             }.onFailure {
+                // handle error لو حبيت
+            }.also {
                 isLoading = false
             }
         }
     }
+
+
     // ---------------- Fetch single user by ID ----------------
     fun fetchUserById(userId: String) {
         viewModelScope.launch {
@@ -79,21 +91,9 @@ class HomeViewModel : ViewModel() {
         currentQuery = query
         lastDocumentId = null
         _posts.value = emptyList()
-        loadPosts()
     }
 
-    fun toggleLike(postId: String, isLiked: Boolean) {
-        viewModelScope.launch {
-            val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return@launch
-            if (isLiked) {
-                postRepository.removeLike(postId, userId)
-            } else {
-                postRepository.addLike(postId, Like(userId = userId))
-            }
-            // Refresh posts to update UI
-            loadPosts()
-        }
-    }
+
 
     fun getComments(postId: String): LiveData<List<Comment>> {
         viewModelScope.launch {

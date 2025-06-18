@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.handicraft.data.models.User
 import com.example.handicraft.data.repository.AuthRepository
 import com.example.handicraft.data.repository.UserRepository
+import com.example.handicraft_graduation_project_2025.utils.SharedPrefUtil
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
@@ -31,19 +32,18 @@ class EditProfileViewModel : ViewModel() {
     private val _updateState = MutableLiveData<Result<Unit>>()
     val updateState: LiveData<Result<Unit>> = _updateState
 
-    /*fun updateProfile(user: User, newEmail: String) {
+    private val _profileUpdateResult = MutableLiveData<Result<Unit>>()
+    val profileUpdateResult: LiveData<Result<Unit>> get() = _profileUpdateResult
+
+    fun updateProfile(user: User) {
         viewModelScope.launch {
-            val emailResult =
-                if (newEmail.isNotBlank()) authRepository.updateEmail(newEmail) else Result.success(
-                    Unit
-                )
-            if (emailResult.isSuccess) {
-                _updateState.value = authRepository.updateUserProfile(user)
-            } else {
-                _updateState.value = emailResult
+            val result = userRepository.updateUser(user)
+            if (result.isSuccess) {
+                _profileUpdateResult.value = result
             }
+            _profileUpdateResult.value = result
         }
-    }*/
+    }
 
     fun fetchUserById(userId: String) {
         viewModelScope.launch {

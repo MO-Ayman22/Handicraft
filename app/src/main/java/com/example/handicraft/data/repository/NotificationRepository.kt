@@ -1,6 +1,6 @@
 package com.example.handicraft.data.repository
 
-import com.example.handicraft_graduation_project_2025.data.models.Notification
+import com.example.handicraft.data.models.Notification
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await

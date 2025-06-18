@@ -7,6 +7,8 @@ import com.example.handicraft.utils.Resource
 import com.example.handicraft_graduation_project_2025.data.models.Comment
 import com.example.handicraft_graduation_project_2025.data.models.Like
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.Dispatchers
@@ -16,47 +18,58 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
-class PostRepository(private val firestore: FirebaseFirestore) {
-    suspend fun getPosts(query: String, lastDocumentId: String? = null, limit: Long = 10): Result<List<Post>> = withContext(Dispatchers.IO) {
+class PostRepository() {
+    private val firestore = FirebaseFirestore.getInstance()
+    private val postsCollection = firestore.collection("posts")
+    suspend fun getAllPosts(query: String = ""): Result<List<Post>> = withContext(Dispatchers.IO) {
         try {
-            var querySnapshot = firestore.collection("posts")
-                .orderBy("timestamp", Query.Direction.DESCENDING)
-                .limit(limit)
-            if (lastDocumentId != null) {
-                val lastDoc = firestore.collection("posts").document(lastDocumentId).get().await()
-                querySnapshot = querySnapshot.startAfter(lastDoc)
-            }
-            if (query.isNotEmpty()) {
-                querySnapshot = querySnapshot.whereGreaterThanOrEqualTo("description", query)
+            var firestoreQuery: Query = firestore.collection("posts")
+                .orderBy("createdAt", Query.Direction.DESCENDING)
+
+            if (query.isNotBlank()) {
+                firestoreQuery = firestoreQuery
+                    .whereGreaterThanOrEqualTo("description", query)
                     .whereLessThanOrEqualTo("description", query + "\uf8ff")
             }
-            val snapshot = querySnapshot.get().await()
+
+            val snapshot = firestoreQuery.get().await()
             val posts = snapshot.toObjects(Post::class.java)
+
             Result.success(posts)
         } catch (e: Exception) {
             Result.failure(e)
         }
     }
 
-    suspend fun addLike(postId: String, like: Like) = withContext(Dispatchers.IO) {
-        try {
-            firestore.collection("posts").document(postId)
-                .collection("likes").document(like.userId).set(like).await()
-            Result.success(Unit)
+
+    suspend fun toggleLike(postId: String, userId: String): Resource<Unit> {
+        return try {
+            val postRef = postsCollection.document(postId)
+
+            firestore.runTransaction { transaction ->
+                val snapshot = transaction.get(postRef)
+                val likes = snapshot.get("likes") as? List<String> ?: emptyList()
+                val currentLikes = likes.toMutableList()
+
+                val isLiked = currentLikes.contains(userId)
+                if (isLiked) {
+                    currentLikes.remove(userId)
+                    transaction.update(postRef, "likesCount", FieldValue.increment(-1))
+                } else {
+                    currentLikes.add(userId)
+                    transaction.update(postRef, "likesCount", FieldValue.increment(1))
+                }
+
+                transaction.update(postRef, "likes", currentLikes)
+            }.await()
+
+            Resource.Success(Unit)
+
         } catch (e: Exception) {
-            Result.failure(e)
+            Resource.Error(e.localizedMessage ?: "Toggle like failed")
         }
     }
 
-    suspend fun removeLike(postId: String, userId: String) = withContext(Dispatchers.IO) {
-        try {
-            firestore.collection("posts").document(postId)
-                .collection("likes").document(userId).delete().await()
-            Result.success(Unit)
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
 
     fun getComments(postId: String): Flow<List<Comment>> = callbackFlow {
         val subscription = firestore.collection("posts").document(postId)

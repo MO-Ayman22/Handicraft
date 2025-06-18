@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.handicraft.R
@@ -19,6 +20,7 @@ import com.example.handicraft_graduation_project_2025.data.models.Product
 import com.example.handicraft.ui.product_feature.adapters.ProductGridAdapter
 import com.example.handicraft.ui.product_feature.adapters.ProductListAdapter
 import com.example.handicraft.ui.product_feature.viewmodels.FavouriteViewModel
+import com.example.handicraft.utils.Constants
 import com.example.handicraft.utils.Resource
 import com.example.handicraft_graduation_project_2025.utils.SharedPrefUtil
 
@@ -148,7 +150,9 @@ class FavouritesFragment : Fragment(), OnProductClickListener {
     }
 
     override fun onProductClick(productId: String, position: Int) {
-        navigateTo(ProductDetailsFragment.newInstance(productId))
+        findNavController().navigate(R.id.action_favouritesFragment_to_productDetailsFragment, Bundle().apply {
+            putString(Constants.PRODUCT_KEY, productId)
+        })
     }
 
     override fun onFavouriteToggle(productId: String, newState: Boolean) {
@@ -161,11 +165,5 @@ class FavouritesFragment : Fragment(), OnProductClickListener {
         gridProductsAdapter.toggleFavouriteState(productId)
     }
 
-    private fun navigateTo(fragment: Fragment, addToBackStack: Boolean = true) {
-        /*requireActivity().supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fragment_container, fragment)
-            if (addToBackStack) addToBackStack(null)
-            commit()
-        }*/
-    }
+
 }

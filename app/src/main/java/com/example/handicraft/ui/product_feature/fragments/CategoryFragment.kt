@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.handicraft.R
 import com.example.handicraft.data.models.User
@@ -53,6 +54,9 @@ class CategoryFragment : Fragment(), OnProductClickListener {
         observeViewModels()
 
         viewModel.fetchUserById(SharedPrefUtil.getUid(requireContext())!!)
+        binding.backArrow.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     private fun initViewModels() {
@@ -131,8 +135,9 @@ class CategoryFragment : Fragment(), OnProductClickListener {
     }
 
     override fun onProductClick(productId: String, position: Int) {
-        val detailsFragment = ProductDetailsFragment.newInstance(productId)
-        navigateTo(detailsFragment)
+       findNavController().navigate(R.id.action_categoryFragment_to_productDetailsFragment, Bundle().apply {
+           putString(Constants.PRODUCT_KEY, productId)
+       })
     }
 
     override fun onFavouriteToggle(productId: String, newState: Boolean) {
@@ -144,24 +149,10 @@ class CategoryFragment : Fragment(), OnProductClickListener {
         productsAdapter.toggleFavouriteState(productId)
     }
 
-    private fun navigateTo(fragment: Fragment, addToBackStack: Boolean = true) {
-        /*requireActivity().supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fragment_container, fragment)
-            if (addToBackStack) addToBackStack(null)
-            commit()
-        }*/
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
-    companion object {
-        fun newInstance(category: String) = CategoryFragment().apply {
-            arguments = Bundle().apply {
-                putString(Constants.CATEGORY_KEY, category)
-            }
-        }
-    }
 }

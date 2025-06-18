@@ -16,6 +16,7 @@ import androidx.core.net.toFile
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.handicraft.databinding.FragmentEditProfileBinding
 import com.example.handicraft.R
@@ -89,6 +90,7 @@ class EditProfileFragment : Fragment() {
     private fun setupListeners() {
         binding.apply {
             saveBut.setOnClickListener { updateProfile() }
+            cancelBut.setOnClickListener { findNavController().navigate(R.id.action_editProfileFragment_to_profileFragment)}
             edBirthDate.setOnClickListener { showDatePicker() }
             editImageBut.setOnClickListener { openGallery() }
         }
@@ -130,7 +132,7 @@ class EditProfileFragment : Fragment() {
         lifecycleScope.launch {
             try {
                 val photoUrl = if (imageUri != Uri.EMPTY) {
-                    val file = imageUri.toFile()
+                    val file = CloudinaryManager.uriToFile( imageUri,requireContext())
                     val uploadResult = CloudinaryManager.uploadImage(
                         context = requireContext(),
                         imageFile = file ?: return@launch,
@@ -167,7 +169,7 @@ class EditProfileFragment : Fragment() {
                 }
 
                 val updatedUser = User(
-                    uid = FirebaseAuth.getInstance().currentUser?.uid ?: return@launch,
+                    uid = SharedPrefUtil.getUid(requireContext())!!,
                     firstName = firstName,
                     lastName = lastName,
                     username = username,
@@ -175,12 +177,22 @@ class EditProfileFragment : Fragment() {
                     phone = phone,
                     location = address,
                     gender = gender,
-                    birthdate = birthDate.toString(),
+                    birthdate = birthDate?.let { formatDate(it) },
                     profileImageUrl = photoUrl,
                     userType = currentUser.userType
                 )
 
-               // viewModel.updateProfile(updatedUser, email)
+               viewModel.updateProfile(updatedUser)
+                viewModel.profileUpdateResult.observe(viewLifecycleOwner) { result ->
+                    result.onSuccess {
+                        Toast.makeText(requireContext(), "Profile updated", Toast.LENGTH_SHORT).show()
+                        findNavController().popBackStack()
+                        // Optionally navigate back or refresh screen
+                    }
+                    result.onFailure {
+                        Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+                    }
+                }
             } catch (e: Exception) {
                 Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT).show()
             }

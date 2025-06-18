@@ -10,6 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.handicraft.R
 import com.example.handicraft.data.models.User
@@ -164,7 +165,9 @@ class ProductsFragment : Fragment(), OnProductClickListener {
 
         categoryMap.forEach { (layout, key) ->
             layout.setOnClickListener {
-                navigateTo(CategoryFragment.newInstance(key))
+               findNavController().navigate(R.id.action_productsFragment_to_categoryFragment, Bundle().apply {
+                    putString(Constants.CATEGORY_KEY, key)
+               })
             }
         }
     }
@@ -240,16 +243,12 @@ class ProductsFragment : Fragment(), OnProductClickListener {
         }
     }
 
-    private fun navigateTo(fragment: Fragment, addToBackStack: Boolean = true) {
-       /* requireActivity().supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fragment_container, fragment)
-            if (addToBackStack) addToBackStack(null)
-            commit()
-        }*/
-    }
+
 
     override fun onProductClick(productId: String, position: Int) {
-        navigateTo(ProductDetailsFragment.newInstance(productId))
+        findNavController().navigate(R.id.action_productsFragment_to_productDetailsFragment, Bundle().apply {
+            putString(Constants.PRODUCT_KEY, productId)
+        })
     }
 
     override fun onFavouriteToggle(productId: String, newState: Boolean) {

@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.handicraft.R
 import com.example.handicraft.databinding.FragmentAddProductBinding
@@ -142,7 +143,7 @@ class AddProductFragment : Fragment(), OnColorsClickListener {
             when (result) {
                 is Resource.Success -> {
                     Snackbar.make(binding.root, "Product added successfully!", Snackbar.LENGTH_SHORT).show()
-                    requireActivity().onBackPressed()
+                    findNavController().navigateUp()
                 }
                 is Resource.Error -> {
                     Snackbar.make(binding.root, "Failed to add product: ${result.message}", Snackbar.LENGTH_LONG).show()

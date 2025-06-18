@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -16,21 +17,24 @@ import com.example.handicraft_graduation_project_2025.data.models.Product
 import com.example.handicraft.data.models.User
 import com.example.handicraft.databinding.FragmentUserProfileBinding
 import com.example.handicraft.ui.adapters.OnProfilePostClickListener
+import com.example.handicraft.ui.adapters.PostAdapter
 import com.example.handicraft.ui.adapters.ProfilePostAdapter
+import com.example.handicraft.ui.product_feature.adapters.OnProductClickListener
+import com.example.handicraft.ui.product_feature.adapters.ProductGridAdapter
 import com.example.handicraft.ui.profile_feature.adapters.OnProfileProductClickListener
 import com.example.handicraft.ui.profile_feature.adapters.ProfileProductAdapter
 import com.example.handicraft.ui.profile_feature.viewmodels.UserProfileViewModel
 import com.example.handicraft.utils.Constants
 import com.google.android.material.tabs.TabLayout
 
-class UserProfileFragment : Fragment(), OnProfileProductClickListener, OnProfilePostClickListener {
+class UserProfileFragment : Fragment(), PostAdapter.OnPostClickListener, OnProductClickListener {
 
     private lateinit var binding: FragmentUserProfileBinding
-    private lateinit var userProfileViewModel: UserProfileViewModel
+    private lateinit var viewModel: UserProfileViewModel
     private lateinit var thisUser: User
     private lateinit var currentUser: User
-    private lateinit var postsAdapter: ProfilePostAdapter
-    private lateinit var productsAdapter: ProfileProductAdapter
+    private lateinit var postsAdapter: PostAdapter
+    private lateinit var productsAdapter: ProductGridAdapter
     private var userMap: Map<String, User> = emptyMap()
     private var currentProductsList: List<Product> = emptyList()
 
@@ -46,15 +50,15 @@ class UserProfileFragment : Fragment(), OnProfileProductClickListener, OnProfile
         super.onViewCreated(view, savedInstanceState)
         currentUser = arguments?.getParcelable(Constants.USER_KEY) ?: return
         val userId = arguments?.getString(Constants.USER_ID_KEY) ?: return
-        userProfileViewModel = ViewModelProvider(this)[UserProfileViewModel::class.java]
+        viewModel = ViewModelProvider(this)[UserProfileViewModel::class.java]
 
         setupObservers()
         setupClickListeners()
-        userProfileViewModel.fetchUserById(userId)
+        viewModel.fetchUserById(userId)
     }
 
     private fun setupObservers() {
-        userProfileViewModel.user.observe(viewLifecycleOwner) { user ->
+        viewModel.user.observe(viewLifecycleOwner) { user ->
             user?.let {
                 thisUser = it
                 initUserInfo()
@@ -65,13 +69,13 @@ class UserProfileFragment : Fragment(), OnProfileProductClickListener, OnProfile
             }
         }
 
-        userProfileViewModel.userProducts.observe(viewLifecycleOwner) { products ->
+        viewModel.userProducts.observe(viewLifecycleOwner) { products ->
             val userIds = products.map { it.userId }.distinct()
             currentProductsList = products
-            userProfileViewModel.fetchUsersByIds(userIds)
+            viewModel.fetchUsersByIds(userIds)
         }
 
-        userProfileViewModel.users.observe(viewLifecycleOwner) { users ->
+        viewModel.users.observe(viewLifecycleOwner) { users ->
             userMap = users.associateBy { it.uid }
             productsAdapter.updateList(currentProductsList, userMap, thisUser)
         }
@@ -79,19 +83,21 @@ class UserProfileFragment : Fragment(), OnProfileProductClickListener, OnProfile
 
     private fun setupClickListeners() {
         binding.layoutFollowers.setOnClickListener {
-            val fragment = FollowersFragment.newInstance(thisUser.uid)
-            navigateTo(fragment)
+            findNavController().navigate(R.id.action_profileFragment_to_followersFragment, Bundle().apply {
+                putString(Constants.USER_ID_KEY, thisUser.uid)
+            })
         }
         binding.layoutFollowing.setOnClickListener {
-            val fragment = FollowingFragment.newInstance(thisUser.uid)
-            navigateTo(fragment)
+            findNavController().navigate(R.id.action_profileFragment_to_followingFragment, Bundle().apply {
+                putString(Constants.USER_ID_KEY, thisUser.uid)
+            })
         }
         binding.btnFollow.setOnClickListener {
             val currentUser = currentUser.uid
             val targetUser = thisUser.uid
 
             if (binding.btnFollow.text == requireContext().getString(R.string.unfollow)) {
-                userProfileViewModel.unfollowUser(currentUser, targetUser)
+                viewModel.unfollowUser(currentUser, targetUser)
                 binding.btnFollow.text = requireContext().getString(R.string.follow)
                 binding.btnFollow.background =
                     AppCompatResources.getDrawable(requireContext(), R.drawable.follow_but_style)
@@ -99,7 +105,7 @@ class UserProfileFragment : Fragment(), OnProfileProductClickListener, OnProfile
                 binding.tvProfileFollowersCount.text =
                     (binding.tvProfileFollowersCount.text.toString().toInt() - 1).toString()
             } else {
-                userProfileViewModel.followUser(currentUser, targetUser)
+                viewModel.followUser(currentUser, targetUser)
                 binding.btnFollow.text = requireContext().getString(R.string.unfollow)
                 binding.btnFollow.background =
                     AppCompatResources.getDrawable(requireContext(), R.drawable.unfollow_but_style)
@@ -149,7 +155,7 @@ class UserProfileFragment : Fragment(), OnProfileProductClickListener, OnProfile
     }
 
     private fun initProductsRecycler() {
-        productsAdapter = ProfileProductAdapter(emptyList(), this)
+        productsAdapter = ProductGridAdapter(emptyList(), this)
         binding.rvProfileProducts.apply {
             layoutManager = GridLayoutManager(requireContext(), 3)
             adapter = productsAdapter
@@ -159,7 +165,7 @@ class UserProfileFragment : Fragment(), OnProfileProductClickListener, OnProfile
 
     private fun initPostsRecycler() {
 
-        postsAdapter = ProfilePostAdapter(emptyList(),this,)
+        postsAdapter = PostAdapter(emptyList(),this,)
         binding.rvProfilePosts.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = postsAdapter
@@ -204,37 +210,25 @@ class UserProfileFragment : Fragment(), OnProfileProductClickListener, OnProfile
         binding.rvProfileProducts.visibility = View.VISIBLE
         binding.rvProfilePosts.visibility = View.GONE
         binding.tvNoResults.text = getString(R.string.this_user_have_no_products_yet)
-        userProfileViewModel.fetchProductsByUser(thisUser.uid)
+        viewModel.fetchProductsByUser(thisUser.uid)
     }
 
-    private fun navigateTo(fragment: Fragment) {
-       /* parentFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, fragment)
-            .addToBackStack(null)
-            .commit()*/
-    }
 
     override fun onProductClick(productId: String, position: Int) {
-        // TODO: Navigate to ProductDetailsFragment
+       findNavController().navigate(R.id.action_profileFragment_to_productsDetailsFragment, Bundle().apply {
+           putString(Constants.PRODUCT_KEY, productId)
+           })
     }
 
 
     override fun onFavouriteToggle(productId: String, newState: Boolean) {
         if (newState)
-            userProfileViewModel.addToFavorites(currentUser.uid, productId)
+            viewModel.addToFavorites(currentUser.uid, productId)
         else
-            userProfileViewModel.removeFromFavorites(currentUser.uid, productId)
+            viewModel.removeFromFavorites(currentUser.uid, productId)
         productsAdapter.toggleFavouriteState(productId)
     }
 
-    companion object {
-        fun newInstance(userId: String, currentUser: User) = UserProfileFragment().apply {
-            arguments = Bundle().apply {
-                putString(Constants.USER_ID_KEY, userId)
-                putParcelable(Constants.USER_KEY, currentUser)
-            }
-        }
-    }
 
     override fun onCommentClick(position: Int, postId: String) {
        // TODO("Not yet implemented")

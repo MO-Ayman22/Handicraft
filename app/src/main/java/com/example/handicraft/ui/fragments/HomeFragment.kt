@@ -1,6 +1,8 @@
 package com.example.handicraft.ui.fragments
 
-
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
@@ -10,6 +12,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
@@ -24,84 +27,108 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.handicraft.R
 import com.example.handicraft.adapters.BannerAdapter
 import com.example.handicraft.adapters.CommentAdapter
-import com.example.handicraft.data.repository.UserRepository
+import com.example.handicraft.data.models.Post
+import com.example.handicraft.data.models.User
 import com.example.handicraft.databinding.FragmentCommentBottomSheetBinding
 import com.example.handicraft.databinding.FragmentHomeBinding
 import com.example.handicraft.databinding.FragmentLikesBottomSheetBinding
-import com.example.handicraft.ui.adapters.OnPostClickListener
-import com.example.handicraft_graduation_project_2025.ui.adapters.LikeAdapter
 import com.example.handicraft.ui.adapters.PostAdapter
 import com.example.handicraft.ui.viewmodels.HomeViewModel
+import com.example.handicraft_graduation_project_2025.ui.adapters.LikeAdapter
+import com.example.handicraft_graduation_project_2025.utils.SharedPrefUtil
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import java.util.*
 
-class HomeFragment : Fragment() ,OnPostClickListener{
+class HomeFragment : Fragment(), PostAdapter.OnPostClickListener {
+
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: HomeViewModel
     private lateinit var postAdapter: PostAdapter
-    private val userRepository = UserRepository(FirebaseFirestore.getInstance(), FirebaseAuth.getInstance())
+    private var currentPosts = emptyList<Post>()
+    private var usersMap = emptyMap<String,User>()
+
     private val handler = Handler(Looper.getMainLooper())
+
     private val autoScrollRunnable = object : Runnable {
         override fun run() {
-            binding.bannerViewPager?.let { viewPager ->
-                val nextItem = (viewPager.currentItem + 1) % Int.MAX_VALUE
-                viewPager.setCurrentItem(nextItem, true)
-                handler.postDelayed(this, 3000)
-            }
+            val nextItem = (binding.bannerViewPager.currentItem + 1) % Int.MAX_VALUE
+            binding.bannerViewPager.setCurrentItem(nextItem, true)
+            handler.postDelayed(this, 3000)
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel= ViewModelProvider(this)[HomeViewModel::class.java]
-        // Load user data in nav header
-        val headerView = binding.navigationView.getHeaderView(0)
-        val navProfileImage = headerView.findViewById<ImageView>(R.id.nav_profile_image)
-        val navUserName = headerView.findViewById<TextView>(R.id.nav_user_name)
+        setupViewModel()
+        setupHeaderView()
+        setupBanner()
+        setupRecyclerView()
+        setupListeners()
+        setupNavigation()
+        observePosts()
+        val darkModeMenuItem = binding.navigationView.menu.findItem(R.id.nav_dark_mode)
+        val darkModeSwitch= darkModeMenuItem.actionView as? android.widget.Switch
+        darkModeSwitch?.apply {
+            // Initialize Switch state based on saved preference or current theme
+            val isDarkMode = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+                .getBoolean("dark_mode", resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES)
+            isChecked = isDarkMode
 
-        // Toggle drawer with profile image
-        binding.profileImage.setOnClickListener {
-            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                binding.drawerLayout.closeDrawer(GravityCompat.START)
-            } else {
-                binding.drawerLayout.openDrawer(GravityCompat.START)
+            // Set listener for dark mode toggle
+            setOnCheckedChangeListener { _, isChecked ->
+                val newMode = if (isChecked) {
+                    AppCompatDelegate.MODE_NIGHT_YES
+                } else {
+                    AppCompatDelegate.MODE_NIGHT_NO
+                }
+                AppCompatDelegate.setDefaultNightMode(newMode)
+                with(requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE).edit()) {
+                    putBoolean("dark_mode", isChecked)
+                    apply()
+                }
             }
         }
+        viewModel.getAllPosts()
+    }
 
-        // Setup Post Adapter
+    private fun setupViewModel() {
+        viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+    }
+
+    private fun setupHeaderView() {
+        val headerView = binding.navigationView.getHeaderView(0)
+        headerView.findViewById<ImageView>(R.id.nav_profile_image)
+        headerView.findViewById<TextView>(R.id.nav_user_name)
+        binding.profileImage.setOnClickListener {
+            with(binding.drawerLayout) {
+                if (isDrawerOpen(GravityCompat.START)) closeDrawer(GravityCompat.START)
+                else openDrawer(GravityCompat.START)
+            }
+        }
+    }
+
+    private fun setupBanner() {
+        binding.bannerViewPager.adapter = BannerAdapter()
+        handler.postDelayed(autoScrollRunnable, 3000)
+    }
+
+    private fun setupRecyclerView() {
         postAdapter = PostAdapter(emptyList(), this)
-
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = postAdapter
-            addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-                    val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-                    val visibleItemCount = layoutManager.childCount
-                    val totalItemCount = layoutManager.itemCount
-                    val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
-
-                    if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0) {
-                        viewModel.loadPosts()
-                    }
-                }
-            })
         }
+    }
 
-        // Navigation clicks
+    private fun setupListeners() {
         binding.chatIcon.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_chatsFragment)
         }
@@ -110,70 +137,30 @@ class HomeFragment : Fragment() ,OnPostClickListener{
             findNavController().navigate(R.id.action_homeFragment_to_notificationFragment)
         }
 
-        binding.bannerViewPager.adapter = BannerAdapter()
-        handler.postDelayed(autoScrollRunnable, 3000)
 
-        viewModel.posts.observe(viewLifecycleOwner) {
+    }
 
-        }
-
-        // Search functionality
-        binding.searchInput.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                viewModel.searchPosts(s.toString())
-            }
-            override fun afterTextChanged(s: Editable?) {}
-        })
-
-        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                if (dy > 0) {
-                    binding.searchBar.visibility = View.GONE
-                    binding.bannerViewPager.visibility = View.GONE
-                } else if (dy < 0) {
-                    binding.searchBar.visibility = View.VISIBLE
-                    binding.bannerViewPager.visibility = View.VISIBLE
-                }
-            }
-        })
-
-        // NavigationView item clicks
+    private fun setupNavigation() {
         binding.navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.nav_show_profile -> {
-                    findNavController().navigate(R.id.action_homeFragment_to_profileFragment)
-                }
-                R.id.nav_dark_mode -> {
-                    val switch = menuItem.actionView as SwitchCompat
-                    switch.isChecked = !switch.isChecked
-                    if (switch.isChecked) {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                    } else {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                    }
-                }
-                R.id.nav_favorites -> {
-                    // findNavController().navigate(R.id.action_homeFragment_to_favoritesFragment)
-                }
-                R.id.nav_language -> {
-                    showLanguageDialog()
-                }
-                R.id.nav_settings -> {
-                    findNavController().navigate(R.id.action_homeFragment_to_settingsFragment)
-                }
-                R.id.nav_sign_out -> {
-                    showSignOutConfirmation()
-                }
+                R.id.nav_show_profile -> findNavController().navigate(R.id.action_homeFragment_to_profileFragment)
+                R.id.nav_dark_mode -> toggleDarkMode(menuItem.actionView as SwitchCompat)
+                R.id.nav_language -> showLanguageDialog()
+              //  R.id.nav_favorites -> findNavController().navigate(R.id.action_homeFragment_to_favoritesFragment)
+                R.id.nav_sign_out -> showSignOutConfirmation()
             }
             binding.drawerLayout.closeDrawer(GravityCompat.START)
             true
         }
 
-        // Initialize Dark Mode switch state
         val darkModeSwitch = binding.navigationView.menu.findItem(R.id.nav_dark_mode).actionView as SwitchCompat
         darkModeSwitch.isChecked = AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
+    }
+
+    private fun toggleDarkMode(switch: SwitchCompat) {
+        switch.isChecked = !switch.isChecked
+        val mode = if (switch.isChecked) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+        AppCompatDelegate.setDefaultNightMode(mode)
     }
 
     private fun showLanguageDialog() {
@@ -181,11 +168,7 @@ class HomeFragment : Fragment() ,OnPostClickListener{
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.language)
             .setItems(languages) { _, which ->
-                val locale = when (which) {
-                    0 -> Locale("en")
-                    1 -> Locale("ar")
-                    else -> Locale("en")
-                }
+                val locale = if (which == 1) Locale("ar") else Locale("en")
                 setLocale(locale)
             }
             .setNegativeButton(R.string.cancel, null)
@@ -213,6 +196,31 @@ class HomeFragment : Fragment() ,OnPostClickListener{
             .setNegativeButton(R.string.cancel, null)
             .show()
     }
+
+    private fun observePosts() {
+        viewModel.posts.observe(viewLifecycleOwner) {
+            currentPosts = it
+            viewModel.fetchUsersByIds(it.map { post -> post.userId })
+        }
+        viewModel.users.observe(viewLifecycleOwner) {
+            usersMap = it.associateBy { user -> user.uid }
+            postAdapter.updatePosts(currentPosts, usersMap,SharedPrefUtil.getUid(requireContext())!!)
+        }
+    }
+
+    override fun onCommentClick(position: Int, postId: String) {
+        CommentBottomSheet(postId).show(childFragmentManager, "CommentBottomSheet")
+    }
+
+    override fun onLikeClick(position: Int, postId: String, isLiked: Boolean) {
+        val userId = SharedPrefUtil.getUid(requireContext()) ?: return
+        viewModel.toggleLike(postId, userId)
+    }
+
+    override fun onLikesCountClick(position: Int, postId: String) {
+        LikesBottomSheet(postId).show(childFragmentManager, "LikesBottomSheet")
+    }
+
     override fun onPause() {
         super.onPause()
         handler.removeCallbacks(autoScrollRunnable)
@@ -228,46 +236,27 @@ class HomeFragment : Fragment() ,OnPostClickListener{
         handler.removeCallbacks(autoScrollRunnable)
         _binding = null
     }
-
-    override fun onCommentClick(position: Int, postId: String) {
-        CommentBottomSheet(postId).show(childFragmentManager, "CommentBottomSheet")
-    }
-
-    override fun onLikeClick(position: Int, postId: String, isLiked: Boolean) {
-        viewModel.toggleLike(postId, isLiked)
-    }
-
-    override fun onLikesCountClick(position: Int, postId: String) {
-        LikesBottomSheet(postId).show(childFragmentManager, "LikesBottomSheet")
-    }
 }
 
-// CommentBottomSheet and LikesBottomSheet
 class CommentBottomSheet(private val postId: String) : BottomSheetDialogFragment() {
     private var _binding: FragmentCommentBottomSheetBinding? = null
     private val binding get() = _binding!!
     private val viewModel: HomeViewModel by viewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentCommentBottomSheetBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val adapter = CommentAdapter()
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             this.adapter = adapter
         }
 
-        viewModel.getComments(postId).observe(viewLifecycleOwner) { comments ->
-            adapter.submitList(comments)
-        }
+        viewModel.getComments(postId).observe(viewLifecycleOwner) { adapter.submitList(it) }
 
         binding.sendButton.setOnClickListener {
             val comment = binding.commentInput.text.toString().trim()
@@ -289,26 +278,20 @@ class LikesBottomSheet(private val postId: String) : BottomSheetDialogFragment()
     private val binding get() = _binding!!
     private val viewModel: HomeViewModel by viewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentLikesBottomSheetBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val adapter = LikeAdapter()
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             this.adapter = adapter
         }
 
-        viewModel.getLikes(postId).observe(viewLifecycleOwner) { likes ->
-            adapter.submitList(likes)
-        }
+        viewModel.getLikes(postId).observe(viewLifecycleOwner) { adapter.submitList(it) }
     }
 
     override fun onDestroyView() {

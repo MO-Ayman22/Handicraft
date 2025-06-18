@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 class ProfileViewModel : ViewModel() {
 
     private val productRepository = ProductRepository()
-    private val postRepository = PostRepository(FirebaseFirestore.getInstance())
+    private val postRepository = PostRepository()
 
     private val _userPosts = MutableLiveData<List<Post>>()
     val userPosts: LiveData<List<Post>> = _userPosts
@@ -39,14 +39,14 @@ class ProfileViewModel : ViewModel() {
     private val _favoriteActionStatus = MutableLiveData<Resource<Unit>>()
     val favoriteActionStatus: LiveData<Resource<Unit>> get() = _favoriteActionStatus
 
-    fun toggleLike(postId: String, isLiked: Boolean) {
+    private val _toggleLikeStatus = MutableLiveData<Resource<Unit>>()
+    val toggleLikeStatus: LiveData<Resource<Unit>> = _toggleLikeStatus
+
+    fun toggleLike(postId: String, userId: String) {
         viewModelScope.launch {
-            val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return@launch
-            if (isLiked) {
-                postRepository.removeLike(postId, userId)
-            } else {
-                postRepository.addLike(postId, Like(userId = userId))
-            }
+            _toggleLikeStatus.value = Resource.Loading
+            val result = postRepository.toggleLike(postId, userId)
+            _toggleLikeStatus.value = result
         }
     }
     fun addToFavorites(userId: String, productId: String) {

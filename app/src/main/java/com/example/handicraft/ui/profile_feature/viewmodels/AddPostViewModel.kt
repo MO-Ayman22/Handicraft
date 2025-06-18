@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 class AddPostViewModel : ViewModel() {
 
     private val productRepository = ProductRepository()
-    private val postRepository = PostRepository(FirebaseFirestore.getInstance())
+    private val postRepository = PostRepository()
 
     private val _userPosts = MutableLiveData<List<Post>>()
     val userPosts: LiveData<List<Post>> = _userPosts

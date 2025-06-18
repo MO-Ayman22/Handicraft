@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -14,11 +16,12 @@ import com.example.handicraft.R
 import com.example.handicraft.data.models.Post
 import com.example.handicraft.data.models.User
 import com.example.handicraft.databinding.FragmentProfileBinding
-import com.example.handicraft.ui.adapters.OnProfilePostClickListener
+import com.example.handicraft.ui.adapters.PostAdapter
 import com.example.handicraft.ui.adapters.ProfilePostAdapter
 import com.example.handicraft.ui.fragments.CommentBottomSheet
 import com.example.handicraft.ui.fragments.LikesBottomSheet
-import com.example.handicraft.ui.profile_feature.adapters.OnProfileProductClickListener
+import com.example.handicraft.ui.product_feature.adapters.OnProductClickListener
+import com.example.handicraft.ui.product_feature.adapters.ProductGridAdapter
 import com.example.handicraft_graduation_project_2025.data.models.Product
 import com.example.handicraft.ui.profile_feature.adapters.ProfileProductAdapter
 import com.example.handicraft.ui.profile_feature.viewmodels.ProfileViewModel
@@ -26,13 +29,13 @@ import com.example.handicraft.utils.Constants
 import com.example.handicraft_graduation_project_2025.utils.SharedPrefUtil
 import com.google.android.material.tabs.TabLayout
 
-class ProfileFragment : Fragment(), OnProfileProductClickListener, OnProfilePostClickListener {
+class ProfileFragment : Fragment(), OnProductClickListener, PostAdapter.OnPostClickListener {
 
     private lateinit var binding: FragmentProfileBinding
-    private lateinit var postsAdapter: ProfilePostAdapter
-    private lateinit var productsAdapter: ProfileProductAdapter
+    private lateinit var postsAdapter: PostAdapter
+    private lateinit var productsAdapter: ProductGridAdapter
     private lateinit var profileViewModel: ProfileViewModel
-    private lateinit var userMap: Map<String, User>
+    private var userMap = emptyMap<String,User>()
     private var currentProductsList: List<Product> = emptyList()
     private var currentPostsList: List<Post> = emptyList()
 
@@ -162,15 +165,19 @@ class ProfileFragment : Fragment(), OnProfileProductClickListener, OnProfilePost
 
     private fun setClickListeners() {
         binding.layoutFollowers.setOnClickListener {
-            currentUser?.let { navigateTo(FollowersFragment.newInstance(it.uid)) }
+            findNavController().navigate(R.id.action_profileFragment_to_followersFragment, Bundle().apply {
+                putString(Constants.USER_ID_KEY, currentUser?.uid)
+            })
         }
 
         binding.layoutFollowing.setOnClickListener {
-            currentUser?.let { navigateTo(FollowingFragment.newInstance(it.uid)) }
+            findNavController().navigate(R.id.action_profileFragment_to_followingFragment, Bundle().apply {
+                putString(Constants.USER_ID_KEY, currentUser?.uid)
+            })
         }
 
         binding.btnEditProfile.setOnClickListener {
-            navigateTo(EditProfileFragment())
+            findNavController().navigate(R.id.action_profileFragment_to_editProfileFragment)
         }
 
         binding.fabAddTextPost.setOnClickListener {
@@ -185,7 +192,7 @@ class ProfileFragment : Fragment(), OnProfileProductClickListener, OnProfilePost
             if (selectedTab == Constants.POSTS_KEY) {
                 toggleFab()
             } else {
-                // navigateTo(AddProductFragment())
+                 findNavController().navigate(R.id.action_profileFragment_to_AddProductFragment)
             }
         }
 
@@ -211,14 +218,14 @@ class ProfileFragment : Fragment(), OnProfileProductClickListener, OnProfilePost
     }
 
     private fun initRecyclerViews() {
-        productsAdapter = ProfileProductAdapter(emptyList(), this)
+        productsAdapter = ProductGridAdapter(emptyList(), this)
         binding.rvProfileProducts.apply {
-            layoutManager = GridLayoutManager(requireContext(), 3)
+            layoutManager = GridLayoutManager(requireContext(), 2)
             adapter = productsAdapter
             setHasFixedSize(true)
         }
 
-        postsAdapter = ProfilePostAdapter(emptyList(), this)
+        postsAdapter = PostAdapter(emptyList(), this)
         binding.rvProfilePosts.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = postsAdapter
@@ -302,15 +309,12 @@ class ProfileFragment : Fragment(), OnProfileProductClickListener, OnProfilePost
             .start()
     }
 
-    private fun navigateTo(fragment: Fragment) {
-        /*  parentFragmentManager.beginTransaction()
-              .replace(R.id.fragment_container, fragment)
-              .addToBackStack(null)
-              .commit()*/
-    }
+
 
     override fun onProductClick(productId: String, position: Int) {
-        // TODO: Navigate to ProductDetailsFragment with productId
+        findNavController().navigate(R.id.action_profileFragment_to_productsDetailsFragment, Bundle().apply {
+            putString(Constants.PRODUCT_KEY, productId)
+        })
     }
 
 
@@ -328,7 +332,7 @@ class ProfileFragment : Fragment(), OnProfileProductClickListener, OnProfilePost
     }
 
     override fun onLikeClick(position: Int, postId: String, isLiked: Boolean) {
-        profileViewModel.toggleLike(postId, isLiked)
+        currentUser?.let { profileViewModel.toggleLike(postId,it.uid) }
     }
 
     override fun onLikesCountClick(position: Int, postId: String) {
